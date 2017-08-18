@@ -10,6 +10,7 @@ import com.stericson.RootTools.RootTools;
 import com.stericson.RootTools.exceptions.RootDeniedException;
 import com.stericson.RootTools.execution.Command;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -20,10 +21,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 //import android.support.v13.app.FragmentPagerAdapter;
+import android.content.pm.PackageManager;
+import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+//import android.support.v13.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
@@ -150,19 +154,19 @@ public class LowsActivity extends Activity {
         //Install Binary to get the ScanResults from Driver using Netlink NL80211 communication
         //Source Code of binary can be found in project/jni folder, to build run ndk-build command
         //Afterwards binary had to be copied into res/raw folder
-        if (RootTools.installBinary(LowsActivity.this, R.raw.nlscanner, "nlscanner") == false) {
-        	debugText = debugText + "\n-Extraction of nlscanner binary failed.";
-			new AlertDialog.Builder(LowsActivity.this)
-					.setTitle("Extract failed")
-					.setMessage("LoW-S was not able to install nlscanner binary!")
-					.setNeutralButton("ok", null).show();
-		}
-        else
-        {
-        	debugText = debugText + "\n-Extraction of nlscanner binary succeded.";
-        }
+        //if (RootTools.installBinary(LowsActivity.this, R.raw.nlscanner, "nlscanner") == false) {
+        //	debugText = debugText + "\n-Extraction of nlscanner binary failed.";
+		//	new AlertDialog.Builder(LowsActivity.this)
+		//			.setTitle("Extract failed")
+		//			.setMessage("LoW-S was not able to install nlscanner binary!")
+		//			.setNeutralButton("ok", null).show();
+		//}
+        //else
+        //{
+        //	debugText = debugText + "\n-Extraction of nlscanner binary succeded.";
+        //}
         //Set execution permissions to make the nlscanner binary executable
-        setExecPerm();
+        //setExecPerm();
         //Load all currently supported LoWS Types
         addAllTypes();      
         
@@ -416,10 +420,69 @@ public class LowsActivity extends Activity {
 		 * This method is called when new wifi scan results are available, we simply start the nlscanner
 		 * to get all scan results together with all IEEE 802.11 IEs from the driver.
 		 */
+
+		private void getWifi() {
+			if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+				requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 0x12345);
+			} else {
+				doGetWifi(); // the actual wifi scanning
+			}
+		}
+
+		private void doGetWifi() {
+			aps = new ArrayList<AccessPoint>();
+			List<ScanResult> wifiList;
+			StringBuilder sb = new StringBuilder();
+			sb = new StringBuilder();
+			wifiList = mainWifiObj.getScanResults();
+			Log.i(TAG, Integer.toString((wifiList.size())));
+			for(int i = 0; i < wifiList.size(); i++){
+				//sb.append(new Integer(i + 1).toString() + ".");
+				//Log.i(TAG, (wifiList.get(i)).toString());
+				sb.append((wifiList.get(i)).SSID.toString());
+				//sb.append((wifiList.get(i)).toString());
+				//sb.append("OFN: " + wifiList.get(i).operatorFriendlyName.toString());
+				sb.append("\n");
+
+
+				String delimiter = new String();
+				int pos;
+				//Recognition of the first and all new access point entries
+
+				tempAp = new AccessPoint();
+
+				tempAp.setBssid(wifiList.get(i).BSSID.toString());
+
+				tempAp.setFreq(wifiList.get(i).frequency);
+
+				tempAp.setBeaconInterval(0);
+
+				tempAp.setSignal(wifiList.get(i).level);
+
+				tempAp.setLastSeen((int) wifiList.get(i).timestamp);
+
+				tempAp.setSsid(wifiList.get(i).SSID.toString());
+
+				aps.add(tempAp);
+
+			}
+			Log.i(TAG, "Background Scanner Received an WIFI Alert!" + sb);
+			ieParser();
+		}
+
 	    public void onReceive(Context c, Intent intent) 
-	    {	
+	    {
+			getWifi();
 	    	//start nlscanner binary to get all the ScanResults from the driver
-	    	startNLscanner();
+	    	//startNLscanner();
+			//wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+			//List<ScanResult> results = mainWifiObj.getScanResults();
+			//for (ScanResult result : results) {
+            //    Log.d("WifiScanReceiver",
+            //            String.format("\n%s (%s) %dMHz %ddBm", result.SSID, result.capabilities,
+            //                    result.frequency, result.level));
+            //}
+			//lowsParser();
 	    }
 
 	 }
@@ -534,6 +597,19 @@ public class LowsActivity extends Activity {
 		}
     
     }
+
+	private static String asciiToHex(String asciiValue)
+	{
+		char[] chars = asciiValue.toCharArray();
+		StringBuffer hex = new StringBuffer();
+		for (int i = 0; i < chars.length; i++)
+		{
+			hex.append(Integer.toHexString((int) chars[i]));
+		}
+		return hex.toString();
+	}
+
+
 	/**
 	 * The ieParser() function, Information Element Parser
 	 * This function is called when the nlscanner binary was successfully executed and the ScanResults are 
@@ -553,6 +629,7 @@ public class LowsActivity extends Activity {
 			int numberAps = aps.size();
 			int i,j;
 			int numberIEs;
+			String tempSSID;
 			AccessPoint tempReadAp;
 			//Parse all AccessPoint entries
 			for(i=0; i<numberAps; i++)
@@ -560,6 +637,34 @@ public class LowsActivity extends Activity {
 				tempReadAp = aps.get(i);
 				//Get number of IE(s) included in the AccessPoint entry
 				numberIEs = tempReadAp.getIESize();
+				if(numberIEs==0) {
+					tempSSID = tempReadAp.getSsid();
+					if(tempSSID.contains("^"))//We have a LoW-S encoding
+					{
+						int posLows = tempSSID.indexOf("^");
+						if(tempSSID.charAt(posLows+4)=='^') {
+							//Yes we have a lows embedding, now put it into our lows array list, together with the ap data
+							//First extract data out of hostname
+							String tempString = tempSSID.substring(tempSSID.indexOf("^") + 1, tempSSID.indexOf("^", posLows+1));
+							if (tempString.length() != 3)
+							{
+								Log.i(TAG, "ERROR Embedding is not a LoWS Embedding: " + tempString + "posLows: "+Integer.toString(posLows));
+							}
+							else
+							{
+								String tempHex = asciiToHex(tempString);
+								LoWS tempLows = new LoWS(tempReadAp, tempHex, 3); //Lows SSID Embedding is always 3 Byte
+								lows.add(tempLows);
+								Log.i(TAG, "added SSID embedded LoWS: " + tempString + "posLows: "+Integer.toString(posLows) + "tempHex: "+tempHex);
+							}
+							//tempSSID = tempSSID.subSequence(posLows + 4, posLows).toString();
+							//LoWS tempLows = new LoWS(tempReadAp, tempSSID, 3); //Lows Cisco Embedding is always 3 Byte
+							//lows.add(tempLows);
+							//Log.i(TAG, "added SSID embedded LoWS: " + tempString + "posLows: "+Integer.toString(posLows));
+							//debugText = debugText + "\n-" + "added SSID embedded LoWS: " +tempSSID;
+						}
+					}
+				}
 				//Parse all IE(s) of this AccessPoint entry
 				for(j=0; j<numberIEs; j++)
 				{
@@ -685,6 +790,9 @@ public class LowsActivity extends Activity {
 		if(lows==null)
 		{
 			debugText = debugText + "\n-" + "No LoWS found in your current area, lowsParser terminated.";
+			//MOBICOM
+			updateResultListFragmentFromActivity();
+			//MOBICOM
 			return;
 		}
 		else
