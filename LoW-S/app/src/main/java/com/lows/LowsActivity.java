@@ -1,29 +1,37 @@
 package com.lows;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 import java.util.ArrayList;
 
-import com.stericson.RootTools.RootTools;
-import com.stericson.RootTools.exceptions.RootDeniedException;
-import com.stericson.RootTools.execution.Command;
+import com.lows.contentprovider.MyCodeBookContentProvider;
+import com.lows.database.CodeBookTable;
+//import com.stericson.RootTools.RootTools;
+//import com.stericson.RootTools.exceptions.RootDeniedException;
+//import com.stericson.RootTools.execution.Command;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 //import android.support.v13.app.FragmentPagerAdapter;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -34,6 +42,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import android.app.AlertDialog;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
 * Main LoWS Receiver Application Activity 
@@ -124,7 +137,7 @@ public class LowsActivity extends Activity {
                 WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
         //Set RootTools in debug mode (could be turned off if not needed anymore)
-        RootTools.debugMode = true; 
+//        RootTools.debugMode = true;
         //Set the BackgroundScannerIntent to the correct class
         BackgroundScannerIntent = new Intent(this, LowsBackgroundAlarmScanner.class);
         //Check if we have root access 
@@ -168,7 +181,11 @@ public class LowsActivity extends Activity {
         //Set execution permissions to make the nlscanner binary executable
         //setExecPerm();
         //Load all currently supported LoWS Types
-        addAllTypes();      
+        addAllTypes();
+
+		//Load preinstalled Codebooks
+		MobicomDemoCodebook mobicomCB  = new MobicomDemoCodebook();
+		addPreInstalledCodebooks(mobicomCB);
         
         //Load the data stored in the Application persistent memory
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
@@ -357,10 +374,10 @@ public class LowsActivity extends Activity {
 	/**
 	 * Function for setting the permissions of the binary to be executable for everyone
 	 * 
-	 * @param void
 	 * @return void
 	 * 
 	 */
+	/*
 	void setExecPerm()
     {	
 		//Generate new command for RootTools, chmod to 0777 command
@@ -404,7 +421,7 @@ public class LowsActivity extends Activity {
 		}
     
     }
-	
+	*/
 	
 	/**
 	 * WifiScanReceiver class, the BroadcastReceiver class that handles what should happen if new Wifi Scan
@@ -429,6 +446,7 @@ public class LowsActivity extends Activity {
 			}
 		}
 
+		@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 		private void doGetWifi() {
 			aps = new ArrayList<AccessPoint>();
 			List<ScanResult> wifiList;
@@ -491,6 +509,7 @@ public class LowsActivity extends Activity {
 	 * This function executes the nlscanner binary and parses all the output (ScanResults) into
 	 * our AccessPoint ArrayList. It afterwards starts the ieParser() function.
 	 */
+	/*
 	void startNLscanner()
     {
 		//debugText = debugText + "\n-" + "startNLscanner() called.";
@@ -502,20 +521,26 @@ public class LowsActivity extends Activity {
 			public void commandCompleted(int id, int exitCode) {
 				ieParser();
 			}
+*/
+
+
 
 			/*The output of the nlscanner binary includes the data of the ScanResults,
 			* therefore, this function had to parse the raw output of the nlscanner
 			* and put the data into our AccessPoint List.
 			*/
+
+/*
 			public void commandOutput(int id, String line) {
 				//String modifyText = outputText.getText().toString();
 				String delimiter = new String();
 				int pos;
-				
+*/
 				/*Detect when a new AccessPoint Entry starts (*), when this was detected, add the old AccessPoint
 				* entry to the List and allocate a new AccessPoint entry (Only if this is not the first 
 				* AccessPoint entry !(#)). 
 				*/
+/*
 				if(line.indexOf("*")==0||line.indexOf("#")==0)
 				{
 					if(!(line.indexOf("#")==0))
@@ -597,7 +622,7 @@ public class LowsActivity extends Activity {
 		}
     
     }
-
+*/
 	private static String asciiToHex(String asciiValue)
 	{
 		char[] chars = asciiValue.toCharArray();
@@ -638,30 +663,33 @@ public class LowsActivity extends Activity {
 				//Get number of IE(s) included in the AccessPoint entry
 				numberIEs = tempReadAp.getIESize();
 				if(numberIEs==0) {
+
 					tempSSID = tempReadAp.getSsid();
-					if(tempSSID.contains("^"))//We have a LoW-S encoding
+					int numLows = (tempSSID.length() - tempSSID.replace("^", "").length())/2;
+					if(numLows>0)//We have a LoW-S encoding
 					{
-						int posLows = tempSSID.indexOf("^");
-						if(tempSSID.charAt(posLows+4)=='^') {
-							//Yes we have a lows embedding, now put it into our lows array list, together with the ap data
-							//First extract data out of hostname
-							String tempString = tempSSID.substring(tempSSID.indexOf("^") + 1, tempSSID.indexOf("^", posLows+1));
-							if (tempString.length() != 3)
-							{
-								Log.i(TAG, "ERROR Embedding is not a LoWS Embedding: " + tempString + "posLows: "+Integer.toString(posLows));
+						Log.i(TAG, "Found "+Integer.toString(numLows)+" LoWS Embeddings in SSID: "+tempSSID);
+						for(int x=1; x<=numLows; x++) {
+							int posLows = tempSSID.indexOf("^");
+							if (tempSSID.charAt(posLows + 4) == '^') {
+								//Yes we have a lows embedding, now put it into our lows array list, together with the ap data
+								//First extract data out of hostname
+								String tempString = tempSSID.substring(tempSSID.indexOf("^") + 1, tempSSID.indexOf("^", posLows + 1));
+								if (tempString.length() != 3) {
+									Log.i(TAG, "ERROR Embedding is not a LoWS Embedding: " + tempString + "posLows: " + Integer.toString(posLows));
+								} else {
+									String tempHex = asciiToHex(tempString);
+									LoWS tempLows = new LoWS(tempReadAp, tempHex, 3); //Lows SSID Embedding is always 3 Byte
+									lows.add(tempLows);
+									Log.i(TAG, "added SSID embedded LoWS: " + tempString + "posLows: " + Integer.toString(posLows) + "tempHex: " + tempHex);
+									tempSSID = tempSSID.substring(posLows + 5);
+								}
+								//tempSSID = tempSSID.subSequence(posLows + 4, posLows).toString();
+								//LoWS tempLows = new LoWS(tempReadAp, tempSSID, 3); //Lows Cisco Embedding is always 3 Byte
+								//lows.add(tempLows);
+								//Log.i(TAG, "added SSID embedded LoWS: " + tempString + "posLows: "+Integer.toString(posLows));
+								//debugText = debugText + "\n-" + "added SSID embedded LoWS: " +tempSSID;
 							}
-							else
-							{
-								String tempHex = asciiToHex(tempString);
-								LoWS tempLows = new LoWS(tempReadAp, tempHex, 3); //Lows SSID Embedding is always 3 Byte
-								lows.add(tempLows);
-								Log.i(TAG, "added SSID embedded LoWS: " + tempString + "posLows: "+Integer.toString(posLows) + "tempHex: "+tempHex);
-							}
-							//tempSSID = tempSSID.subSequence(posLows + 4, posLows).toString();
-							//LoWS tempLows = new LoWS(tempReadAp, tempSSID, 3); //Lows Cisco Embedding is always 3 Byte
-							//lows.add(tempLows);
-							//Log.i(TAG, "added SSID embedded LoWS: " + tempString + "posLows: "+Integer.toString(posLows));
-							//debugText = debugText + "\n-" + "added SSID embedded LoWS: " +tempSSID;
 						}
 					}
 				}
@@ -749,13 +777,15 @@ public class LowsActivity extends Activity {
 			{
 				tempReadLows = lows.get(l);
 				String tempLowsData = tempReadLows.getLowsServiceData();
+				int tempReadType = tempReadLows.getType();
 				for(int k=0; k<lows.size(); k++)
 				{
 					if(k!=l)
 					{
 						tempCompareLows = lows.get(k);
 						String tempCompareData = tempCompareLows.getLowsServiceData();
-						if(tempLowsData.equals(tempCompareData))
+						int tempCompareType = tempCompareLows.getType();
+						if(tempLowsData.equals(tempCompareData) && (tempReadType == tempCompareType))
 						{
 							Log.i(TAG, "Double LoWS found: "+tempLowsData+"=="+tempCompareData);
 							toRemove=k;
@@ -1154,7 +1184,6 @@ public class LowsActivity extends Activity {
 	/**
 	 * Function for loading all currently supported LoWS types
 	 * 
-	 * @param void
 	 * @return void
 	 */
 	
@@ -1190,7 +1219,106 @@ public class LowsActivity extends Activity {
                     addPreferencesFromResource(R.xml.lowspreference);
         }
 }
-	
-	
+
+
+	private void addPreInstalledCodebooks(PreinstalledCodebook preCB)
+	{
+		Log.i(TAG, "Started addPreInstalledCodebooks Function");
+		//parse json data
+
+			//JSONArray jArray = new JSONArray(result);
+			//toastString = "Received Codebook with size: "+jArray.length();
+			//mHandler.post(new Runnable() {
+			//	@Override
+		//		public void run() {
+		//			Toast.makeText(CodeBookUpdaterService.this, toastString, Toast.LENGTH_LONG).show();
+		//		}
+		//	});
+			//numberLows = 1;
+			for(int i=0;i<preCB.cb.size();i++){
+				//JSONObject json_data = jArray.getJSONObject(i);
+				//Log.i("log_tag","id: "+json_data.getInt("id")+
+				//				", mac: "+json_data.getString("access_point_mac")+
+				//				", service_type: "+json_data.getString("service_hexcode")+
+				//				", hardcoded_value: "+json_data.getString("lic")+
+				//				", codebook_value: "+json_data.getString("ldc")+
+				//				", data: "+json_data.getString("data")+
+				//				", version: "+json_data.getInt("version")
+				//);
+				PreInstalledCodebookEntry tempCBEntry = preCB.cb.get(i);
+				String tempMac = tempCBEntry.apMAC;
+				String tempServiceType = tempCBEntry.serviceType;
+				String tempHardcodeValue = tempCBEntry.hardcodeValue;
+				String tempCodebookValue = tempCBEntry.codebookValue;
+				String tempData = tempCBEntry.data;
+				int tempVersion = tempCBEntry.version;
+				Calendar c = Calendar.getInstance();
+				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				String currentDate = sdf.format(c.getTime());
+
+				Cursor cursor = getContentResolver().query(
+						MyCodeBookContentProvider.CONTENT_URI,
+						null,
+						"mac LIKE '" + tempMac + "' AND servicetype LIKE '"
+								+ tempServiceType + "' AND hardcodedvalue LIKE '"
+								+ tempHardcodeValue + "' AND codebookvalue LIKE '"
+								+ tempCodebookValue + "'", null, null);
+				if (cursor != null) {
+					Log.i(TAG, "Database Cursor is not null");
+					if (cursor.getCount() > 0) {
+						Log.i(TAG, "Database cursor.getCount() > 0");
+						//update or do nothing
+						cursor.moveToFirst();
+						//String dataValue = cursor.getString(cursor.getColumnIndexOrThrow(CodeBookTable.COLUMN_DATA));
+						int versionCompare = cursor.getInt(cursor.getColumnIndexOrThrow(CodeBookTable.COLUMN_VERSION));
+						if(tempVersion==versionCompare)
+						{
+							Log.i(TAG, "tempVersion==versionCompare, do nothing the data is still the same");
+							//do nothing the data is still the same
+						}
+						else
+						{
+							Log.i(TAG, "tempVersion!=versionCompare, update this entry, the data has changed");
+							//update this entry, the data has changed
+							ContentValues values = new ContentValues();
+							values.put(CodeBookTable.COLUMN_MAC, tempMac);
+							values.put(CodeBookTable.COLUMN_SERVICE_TYPE, tempServiceType);
+							values.put(CodeBookTable.COLUMN_HARDCODED_VALUE, tempHardcodeValue);
+							values.put(CodeBookTable.COLUMN_CODEBOOK_VALUE, tempCodebookValue);
+							values.put(CodeBookTable.COLUMN_DATA,tempData);
+							values.put(CodeBookTable.COLUMN_LASTCHANGED, currentDate);
+							values.put(CodeBookTable.COLUMN_VERSION, tempVersion);
+							getContentResolver().update(MyCodeBookContentProvider.CONTENT_URI, values,
+									"mac LIKE '" + tempMac + "' AND servicetype LIKE '"
+											+ tempServiceType + "' AND hardcodedvalue LIKE '"
+											+ tempHardcodeValue + "' AND codebookvalue LIKE '"
+											+ tempCodebookValue + "'", null);
+						}
+					} else {
+						//add new entry
+						Log.i(TAG, "Adding new entry into Codebook Database");
+						ContentValues values = new ContentValues();
+						values.put(CodeBookTable.COLUMN_MAC, tempMac);
+						values.put(CodeBookTable.COLUMN_SERVICE_TYPE, tempServiceType);
+						values.put(CodeBookTable.COLUMN_HARDCODED_VALUE, tempHardcodeValue);
+						values.put(CodeBookTable.COLUMN_CODEBOOK_VALUE, tempCodebookValue);
+						values.put(CodeBookTable.COLUMN_DATA,tempData);
+						values.put(CodeBookTable.COLUMN_LASTCHANGED, currentDate);
+						values.put(CodeBookTable.COLUMN_VERSION, tempVersion);
+						Uri savedUri = getContentResolver().insert(MyCodeBookContentProvider.CONTENT_URI, values);
+					}
+				} // always close the cursor
+				else
+				{
+					Log.i(TAG, "Database Cursor is null...");
+				}
+				cursor.close();
+
+
+			}
+
+
+
+	}
 	
 }

@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-import com.stericson.RootTools.RootTools;
-import com.stericson.RootTools.exceptions.RootDeniedException;
-import com.stericson.RootTools.execution.Command;
+//import com.stericson.RootTools.RootTools;
+//import com.stericson.RootTools.exceptions.RootDeniedException;
+//import com.stericson.RootTools.execution.Command;
 
 import android.Manifest;
 import android.app.IntentService;
@@ -285,6 +285,8 @@ public class LowsBackgroundAlarmScanner extends IntentService {
     /**
      * Start the nlscanner binary and parse the data
      */
+
+/*
     void startNLscanner()
     {
     	//initialize the AccessPoint List
@@ -372,7 +374,7 @@ public class LowsBackgroundAlarmScanner extends IntentService {
     
     }
 
-
+*/
 	private static String asciiToHex(String asciiValue)
 	{
 		char[] chars = asciiValue.toCharArray();
@@ -408,29 +410,31 @@ public class LowsBackgroundAlarmScanner extends IntentService {
 				//We have SSID Embedding
 				if(numberIEs==0) {
 					tempSSID = tempReadAp.getSsid();
-					if(tempSSID.contains("^"))//We have a LoW-S encoding
+					int numLows = (tempSSID.length() - tempSSID.replace("^", "").length())/2;
+					if(numLows>0)//We have a LoW-S encoding
 					{
-						int posLows = tempSSID.indexOf("^");
-						if(tempSSID.charAt(posLows+4)=='^') {
-							//Yes we have a lows embedding, now put it into our lows array list, together with the ap data
-							//First extract data out of hostname
-							String tempString = tempSSID.substring(tempSSID.indexOf("^") + 1, tempSSID.indexOf("^", posLows+1));
-							if (tempString.length() != 3)
-							{
-								Log.i(TAG, "ERROR Embedding is not a LoWS Embedding: " + tempString + "posLows: "+Integer.toString(posLows));
+						Log.i(TAG, "Found "+Integer.toString(numLows)+" LoWS Embeddings in SSID: "+tempSSID);
+						for(int x=1; x<=numLows; x++) {
+							int posLows = tempSSID.indexOf("^");
+							if (tempSSID.charAt(posLows + 4) == '^') {
+								//Yes we have a lows embedding, now put it into our lows array list, together with the ap data
+								//First extract data out of hostname
+								String tempString = tempSSID.substring(tempSSID.indexOf("^") + 1, tempSSID.indexOf("^", posLows + 1));
+								if (tempString.length() != 3) {
+									Log.i(TAG, "ERROR Embedding is not a LoWS Embedding: " + tempString + "posLows: " + Integer.toString(posLows));
+								} else {
+									String tempHex = asciiToHex(tempString);
+									LoWS tempLows = new LoWS(tempReadAp, tempHex, 3); //Lows SSID Embedding is always 3 Byte
+									lows.add(tempLows);
+									Log.i(TAG, "added SSID embedded LoWS: " + tempString + "posLows: " + Integer.toString(posLows) + "tempHex: " + tempHex);
+									tempSSID = tempSSID.substring(posLows + 5);
+								}
+								//tempSSID = tempSSID.subSequence(posLows + 4, posLows).toString();
+								//LoWS tempLows = new LoWS(tempReadAp, tempSSID, 3); //Lows Cisco Embedding is always 3 Byte
+								//lows.add(tempLows);
+								//Log.i(TAG, "added SSID embedded LoWS: " + tempString + "posLows: "+Integer.toString(posLows));
+								//debugText = debugText + "\n-" + "added SSID embedded LoWS: " +tempSSID;
 							}
-							else
-							{
-								String tempHex = asciiToHex(tempString);
-								LoWS tempLows = new LoWS(tempReadAp, tempHex, 3); //Lows SSID Embedding is always 3 Byte
-								lows.add(tempLows);
-								Log.i(TAG, "added SSID embedded LoWS: " + tempString + "posLows: "+Integer.toString(posLows) + "tempHex: "+tempHex);
-							}
-							//tempSSID = tempSSID.subSequence(posLows + 4, posLows).toString();
-							//LoWS tempLows = new LoWS(tempReadAp, tempSSID, 3); //Lows Cisco Embedding is always 3 Byte
-							//lows.add(tempLows);
-							//Log.i(TAG, "added SSID embedded LoWS: " + tempString + "posLows: "+Integer.toString(posLows));
-							//debugText = debugText + "\n-" + "added SSID embedded LoWS: " +tempSSID;
 						}
 					}
 				}
