@@ -77,7 +77,7 @@ public class BEPSLoWSReducedType implements LoWSReducedType{
 		}
 		else
 		{
-			returnText = "Not supported BEPS ID";
+			returnText = "General Beacon Emergency Propagation Service ID";
 		}
 		return returnText;
 	}

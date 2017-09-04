@@ -76,7 +76,7 @@ public class LowsActivity extends Activity {
 	
 	//Interval for the Background Alarm Scanner
 	//TODO Make this variable adjustable from the Settings Menu
-	private static int backgroundScannerInterval = 15;
+	private static int backgroundScannerInterval = 5;
 	//SectionsPager Adapter object
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	//TAG for debugging with logcat
@@ -134,9 +134,15 @@ public class LowsActivity extends Activity {
 		//Register Broadcast Receiver to IntentFilter
         wifiReciever = new WifiScanReceiver();
         registerReceiver(wifiReciever, new IntentFilter(
-                WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
-        //Set RootTools in debug mode (could be turned off if not needed anymore)
+
+		//Start the IEEE 802.11 scan via the Wifi System Service APO
+		mainWifiObj.startScan();
+
+
+
+		//Set RootTools in debug mode (could be turned off if not needed anymore)
 //        RootTools.debugMode = true;
         //Set the BackgroundScannerIntent to the correct class
         BackgroundScannerIntent = new Intent(this, LowsBackgroundAlarmScanner.class);
