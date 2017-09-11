@@ -8,26 +8,16 @@
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="158dp"
+        android:layout_height="73dp"
         android:columnCount="2"
         android:orientation="vertical"
         android:rowCount="5" >
-
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_column="0"
-            android:layout_gravity="left|top"
-            android:layout_row="1"
-            android:src="@drawable/ic_launcher" />
 
         <TextView
             android:id="@+id/typeText"
             android:layout_column="0"
             android:layout_row="2"
-            android:text="typeText"
-            android:textSize="14sp" />
+            android:text="typeText"/>
 
         <TextView
             android:id="@+id/displayText"
@@ -38,7 +28,7 @@
 
         <Space
             android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_height="34dp"
             android:layout_column="0"
             android:layout_row="4" />
     </GridLayout>
@@ -53,17 +43,40 @@
         <ScrollView
             android:id="@+id/scroller"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="100dp"
             android:layout_marginLeft="5px"
-            android:layout_marginRight="5px"
-            android:layout_weight="0.59" >
+            android:layout_marginRight="5px">
 
             <TextView
                 android:id="@+id/output_text"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:maxLength="1000000"
-                android:text="@string/welcome_text" />
+                android:text="@string/welcome_text"
+                android:textSize="20sp" />
+
+        </ScrollView>
+        <ImageView
+            android:id="@+id/bepsImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/beps" />
+        <ScrollView
+            android:id="@+id/scroller2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5px"
+            android:layout_marginRight="5px"
+            android:layout_weight="0.59" >
+
+            <TextView
+                android:id="@+id/lboutput_text"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:maxLength="1000000"
+                android:text="@string/welcome_text"
+                android:textSize="20sp"/>
+
         </ScrollView>
 
         <Button

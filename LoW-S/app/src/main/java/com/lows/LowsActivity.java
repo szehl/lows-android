@@ -77,7 +77,7 @@ public class LowsActivity extends Activity {
 
 	//Interval for the Background Alarm Scanner
 	//TODO Make this variable adjustable from the Settings Menu
-	private static int backgroundScannerInterval = 5;
+	private static int backgroundScannerInterval = 1;
 	//SectionsPager Adapter object
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	//TAG for debugging with logcat

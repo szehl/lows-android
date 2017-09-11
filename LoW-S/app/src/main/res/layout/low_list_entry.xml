@@ -2,6 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
+    <ImageView
+        android:id="@+id/rssi"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="right"
+        android:src="@drawable/wifi4" />
 
     <ImageView
         android:id="@+id/icon"
@@ -20,7 +26,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/bottom"
@@ -29,8 +35,9 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="12.0sp" />
+            android:textSize="18.0sp" />
 
     </RelativeLayout>
+
 
 </LinearLayout>

@@ -46,6 +46,7 @@ public class ResultListFragment extends Fragment {
 	boolean[] showAlarmSwitch = new boolean[0];
 	boolean[] alarmInitialState = new boolean[0];
 	boolean[] showAlarmSearchField = new boolean[0];
+	double[] rssiIndicator = new double[0];
 	boolean globalBepsEnabled=true;
 	public static final String PREFS_NAME = "lowsPersistentData";
 	private static final String TAG = "com.lows.ResultListFragment";
@@ -151,7 +152,7 @@ public class ResultListFragment extends Fragment {
 	 		alarmMessagesData = ((LowsActivity)getActivity()).getAlarmMessagesDataArray();
 	 		
 	 		//Create new ArrayAdapter
-	 		dataAdapter = new LowsAdapter(getActivity(), lows, typeText, serviceText, iconName);
+	 		dataAdapter = new LowsAdapter(getActivity(), lows, typeText, serviceText, iconName, rssiIndicator);
 			 
 	 		ListView listView = (ListView) getView().findViewById(R.id.lows_list_view);
 			// Assign adapter to ListView
@@ -209,6 +210,8 @@ public class ResultListFragment extends Fragment {
 		searchText = new String[lowsSize];
 		//Alarm initially turned on?
 		alarmInitialState = new boolean[lowsSize];
+		//RSSI Indicator
+		rssiIndicator = new double[lowsSize];
 		
 		//Process all LoWS in LoWS List
 		for(int i=0; i<lowsSize; i++)
@@ -224,6 +227,7 @@ public class ResultListFragment extends Fragment {
 				if(tempType==tempRedType.getTypeNumber())
 				{
 					serviceText[i]=tempRedType.decodeData(tempLows.getLowsServiceData());
+					rssiIndicator[i] = tempLows.getSignalStrength();
 					iconName[i]=tempRedType.getIconName();
 					showAlarmSwitch[i]=tempRedType.showAlarmSwitch();
 					showAlarmSearchField[i]=tempRedType.showSearchFieldSwitch();
@@ -245,6 +249,7 @@ public class ResultListFragment extends Fragment {
 					  if(tempType==tempExtType.getTypeNumber())
 					  {
 						  serviceText[i]=tempExtType.decodeData(tempLows.getLowsServiceData());
+						  rssiIndicator[i] = tempLows.getSignalStrength();
 						  iconName[i]=tempExtType.getIconName();
 						  showAlarmSwitch[i]=tempExtType.showAlarmSwitch();
 						  showAlarmSearchField[i]=tempExtType.showSearchFieldSwitch();
@@ -262,7 +267,8 @@ public class ResultListFragment extends Fragment {
 		  
  		dataAdapter.notifyDataSetChanged();
  		//Create new adapter and submit all the data generated out of the LoWS List to it
- 		dataAdapter = new LowsAdapter(getActivity(), lows, typeText, serviceText, iconName);
+ 		dataAdapter = new LowsAdapter(getActivity(), lows, typeText, serviceText, iconName, rssiIndicator);
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Hier noch RSSI mit übergeben und dann im Adapter setzen!!!!3
  		//Set new adapter
  		listView.setAdapter(dataAdapter);
  		

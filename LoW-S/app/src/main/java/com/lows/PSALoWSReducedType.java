@@ -71,7 +71,7 @@ public class PSALoWSReducedType implements LoWSReducedType{
 		}
 		else if(bepsID.charAt(0)=='D')
 		{
-			returnText = "Disabled Toilet";
+			returnText = "Disabled Restroom";
 		}
 		else if(bepsID.charAt(0)=='E')
 		{
@@ -115,7 +115,7 @@ public class PSALoWSReducedType implements LoWSReducedType{
 		}
 		else if(bepsID.charAt(0)=='T')
 		{
-			returnText = "Toilet";
+			returnText = "Restroom";
 		}
 		else if(bepsID.charAt(0)=='U')
 		{

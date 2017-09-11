@@ -2,20 +2,31 @@ package com.lows;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import com.lows.contentprovider.MyCodeBookContentProvider;
 import com.lows.database.CodeBookTable;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 
 import android.net.Uri;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -23,6 +34,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import android.widget.Switch;
@@ -57,6 +69,20 @@ public class ClickActivity extends Activity {
 	private static final int CB_CHECK_INTERVAL = 10; //check for new codebook if entry is older than CB_CHECK_INTERVAL 
 													//You should also check the constant of AlarmClickActivity!
 
+	//Access to the Android Wifi Service
+	WifiManager mainWifiObj;
+	//Broadcast Receiver Object
+	WifiScanReceiver wifiReciever;
+	String macData = "";
+	double rssiData = -100.0;
+	int serviceType = 0;
+	String serviceData = "";
+	Switch alarmSwitch;
+
+
+
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -67,26 +93,74 @@ public class ClickActivity extends Activity {
 		final TextView locationTextView = (TextView) findViewById(R.id.locdata);
 		final TextView cbDescTextView = (TextView) findViewById(R.id.codebook_desc);
 		final TextView rssiTextView = (TextView) findViewById(R.id.rssi);
-		saveButton = (Button) findViewById(R.id.save_button);
+		//rssiImg= (ImageView) findViewById(R.id.rssiImage);
+		//rssiImg.setImageResource(R.drawable.wifi4);
 
+		final ImageView rssiImg= (ImageView) findViewById(R.id.rssiImage);
 		searchEditText = (EditText) findViewById(R.id.searchText);
 		final TextView searchTextView = (TextView) findViewById(R.id.alarmIf);
-		Switch alarmSwitch = (Switch) findViewById(R.id.alarm_switch);
+		alarmSwitch = (Switch) findViewById(R.id.alarm_switch);
+		saveButton = (Button) findViewById(R.id.save_button);
 
 		Bundle bundle = getIntent().getExtras();
 		position = bundle.getInt("position");
 		String bundleType = bundle.getString("type");
 		String bundleData = bundle.getString("data");
 		String bundleSearchText = bundle.getString("searchText");
-		String serviceData = bundle.getString("serviceData");
-		int serviceType = bundle.getInt("serviceType");
+		serviceData = bundle.getString("serviceData");
+		serviceType = bundle.getInt("serviceType");
 		int formatType = bundle.getInt("formatType");
-		String macData = bundle.getString("mac");
-		double rssiData = bundle.getDouble("rssi");
+		macData = bundle.getString("mac");
+		rssiData = bundle.getDouble("rssi");
 		// Fields for database lookup
 		String hardcodedValue = "0x00";
 		String codebookValue = "0x00";
 		String typeValue = "0x" + Integer.toHexString(serviceType);
+
+		if(rssiData > -40.0)
+		{
+			rssiImg.setImageResource(R.drawable.wifi4);
+		}
+		else if(rssiData > -60.0 && rssiData < -40.0)
+		{
+			rssiImg.setImageResource(R.drawable.wifi3);
+		}
+		else if(rssiData > -80.0 && rssiData < -60.0)
+		{
+			rssiImg.setImageResource(R.drawable.wifi2);
+		}
+		else
+		{
+			rssiImg.setImageResource(R.drawable.wifi0);
+		}
+		if(serviceType==33)
+		{
+			rssiImg.setImageResource(R.drawable.beps);
+			if(serviceData.equals("5245"))
+			{
+				rssiImg.setImageResource(R.drawable.evaplan);
+			}
+		}
+
+		if(serviceType==63)
+		{
+			if(serviceData.equals("464d"))
+			{
+				rssiImg.setImageResource(R.drawable.donald);
+			}
+		}
+
+		//get Wifi System Service
+		mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		//Register Broadcast Receiver to IntentFilter
+		wifiReciever = new WifiScanReceiver();
+		registerReceiver(wifiReciever, new IntentFilter(
+				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
+
+		//Start the IEEE 802.11 scan via the Wifi System Service APO
+		mainWifiObj.startScan();
+
 		//TODO: Here also the case when a dichotomous code is embedded within a extended (flexible) type should
 		// 		be supported somehow.
 		if (formatType == 1) {
@@ -203,7 +277,7 @@ public class ClickActivity extends Activity {
 			if (initialAlarmSwitchState) {
 				alarmSwitch.toggle();
 				alarmSwitchState = true;
-
+				//rssiImg.setVisibility(View.INVISIBLE);
 			}
 
 		}
@@ -212,7 +286,7 @@ public class ClickActivity extends Activity {
 				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 					@Override
 					public void onCheckedChanged(CompoundButton buttonView,
-							boolean isChecked) {
+												 boolean isChecked) {
 						if (isChecked) {
 							alarmSwitchState = true;
 						} else {
@@ -239,7 +313,198 @@ public class ClickActivity extends Activity {
 
 		});
 
+
+
 	}
+
+
+
+
+	/**
+	 * WifiScanReceiver class, the BroadcastReceiver class that handles what should happen if new Wifi Scan
+	 * Results are available, holds the method onReceive, which is called when new scan results were found.
+	 * OnReceive then calls the nlscanner binary to get all IEEE 802.11 IE(s)
+	 *
+	 * @author Sven Zehl
+	 */
+	class WifiScanReceiver extends BroadcastReceiver {
+
+		/**
+		 * This method is called when new wifi scan results are available, we simply start the nlscanner
+		 * to get all scan results together with all IEEE 802.11 IEs from the driver.
+		 */
+
+		private void getWifi() {
+			if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+				requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 0x12345);
+			} else {
+				doGetWifi(); // the actual wifi scanning
+			}
+		}
+
+		private String asciiToHex(String asciiValue) {
+			char[] chars = asciiValue.toCharArray();
+			StringBuffer hex = new StringBuffer();
+			for (int i = 0; i < chars.length; i++) {
+				hex.append(Integer.toHexString((int) chars[i]));
+			}
+			return hex.toString();
+		}
+
+		@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+		private void doGetWifi() {
+			final ImageView rssiImg= (ImageView) findViewById(R.id.rssiImage);
+			final TextView rssiTextView = (TextView) findViewById(R.id.rssi);
+			final TextView locationTextView = (TextView) findViewById(R.id.locdata);
+			//aps = new ArrayList<AccessPoint>();
+			List<ScanResult> wifiList;
+			StringBuilder sb = new StringBuilder();
+			sb = new StringBuilder();
+			wifiList = mainWifiObj.getScanResults();
+			Log.i(TAG, Integer.toString((wifiList.size())));
+			for (int i = 0; i < wifiList.size(); i++) {
+				//sb.append(new Integer(i + 1).toString() + ".");
+				//Log.i(TAG, (wifiList.get(i)).toString());
+				sb.append((wifiList.get(i)).SSID.toString());
+				//sb.append((wifiList.get(i)).toString());
+				//sb.append("OFN: " + wifiList.get(i).operatorFriendlyName.toString());
+				sb.append("\n");
+
+
+				String delimiter = new String();
+				int pos;
+				//Recognition of the first and all new access point entries
+
+				AccessPoint tempApx = new AccessPoint();
+
+				if(macData.equals(wifiList.get(i).BSSID.toString())) {
+					rssiData = wifiList.get(i).level;
+					String tempSSID = ((wifiList.get(i)).SSID.toString());
+					if (rssiData > -40.0) {
+						rssiImg.setImageResource(R.drawable.wifi4);
+					} else if (rssiData > -60.0 && rssiData < -40.0) {
+						rssiImg.setImageResource(R.drawable.wifi3);
+					} else if (rssiData > -80.0 && rssiData < -60.0) {
+						rssiImg.setImageResource(R.drawable.wifi2);
+					} else {
+						rssiImg.setImageResource(R.drawable.wifi0);
+					}
+					rssiTextView.setText("Distance (RSSI): " + rssiData + " dBm");
+					if (serviceType == 33) {
+						rssiImg.setImageResource(R.drawable.beps);
+						if (serviceData.equals("5245")) {
+							rssiImg.setImageResource(R.drawable.evaplan);
+						}
+					}
+					if(serviceType==63)
+					{
+						if(serviceData.equals("464d"))
+						{
+							rssiImg.setImageResource(R.drawable.donald);
+						}
+					}
+					//tempSSID = tempReadAp.getSsid();
+					int numLows = (tempSSID.length() - tempSSID.replace("^", "").length()) / 2;
+					if (numLows > 0)//We have a LoW-S encoding
+					{
+						Log.i(TAG, "Found " + Integer.toString(numLows) + " LoWS Embeddings in SSID: " + tempSSID);
+						for (int x = 1; x <= numLows; x++) {
+							int posLows = tempSSID.indexOf("^");
+							if (tempSSID.charAt(posLows + 4) == '^') {
+								//Yes we have a lows embedding, now put it into our lows array list, together with the ap data
+								//First extract data out of hostname
+								String tempString = tempSSID.substring(tempSSID.indexOf("^") + 1, tempSSID.indexOf("^", posLows + 1));
+								if (tempString.length() != 3) {
+									Log.i(TAG, "ERROR Embedding is not a LoWS Embedding: " + tempString + "posLows: " + Integer.toString(posLows));
+								} else {
+									String tempHex = asciiToHex(tempString);
+									String tempLowsFormatType = tempHex.subSequence(0, 2).toString();
+									int tempLowsFormatTypeInt = Integer.parseInt(tempLowsFormatType, 16);
+									String tempServiceData = tempHex.subSequence(2, 6).toString();
+									//Log.i(TAG, "FOUND LoWS UPDATE!!!!: " + tempString + "posLows: " + Integer.toString(posLows) + "tempHex: " + tempHex);
+									Log.i(TAG, "FOUND LoWS UPDATE2!!!: " + "type: " + Integer.toString(tempLowsFormatTypeInt) + "tempServiceData: " + tempServiceData);
+									//Log.i(TAG, "FOUND LoWS UPDATE3!!!: " + "type: " + Integer.toString(tempLowsFormatTypeInt)+ "(type: " + Integer.toString(serviceType) + ") tempServiceData: " + tempHex.subSequence(4, 6).toString()+ " (ServiceData: " + serviceData.subSequence(0, 2).toString() + ")");
+									if(tempLowsFormatTypeInt == serviceType && tempHex.subSequence(2, 4).toString().equals(serviceData.subSequence(0, 2).toString()))
+									{
+
+										Log.i(TAG, "FOUND LoWS UPDATE3!!!: " + "type: " + Integer.toString(tempLowsFormatTypeInt)+ "(type: " + Integer.toString(serviceType) + ") tempServiceData: " + tempServiceData+ " (ServiceData: " + serviceData.subSequence(0, 2).toString() + ")");
+
+											// Codebook format (reduced format)
+										    String typeValue = "0x" + tempHex.subSequence(0, 2).toString();
+											String hardcodedValue = "0x" + tempHex.subSequence(2, 4).toString();
+											String codebookValue = "0x" + tempHex.subSequence(4, 6).toString();
+											// Database Stuff
+											// Get correct row
+											Cursor cursor = getContentResolver().query(
+													MyCodeBookContentProvider.CONTENT_URI,
+													null,
+													"mac LIKE '" + macData + "' AND servicetype LIKE '"
+															+ typeValue + "' AND hardcodedvalue LIKE '"
+															+ hardcodedValue + "' AND codebookvalue LIKE '"
+															+ codebookValue + "'", null, null);
+
+											String dataValue = "Currently no location specific data available (no codebook entry found)";
+											//Check if an entry was found
+											if (cursor != null) {
+												//If an entry was found for the ldc
+												if(cursor.getCount()>0)
+												{
+													cursor.moveToFirst();
+													dataValue = cursor.getString(cursor.getColumnIndexOrThrow(CodeBookTable.COLUMN_DATA));
+													locationTextView.setText(dataValue);
+
+												}
+												//No entry was found for the ldc
+												else {
+													Log.i(TAG, "No Codebookentry found for update " + "type: " + Integer.toString(tempLowsFormatTypeInt) + "tempServiceData: " + tempServiceData);
+													//Start Codebook Updater
+													//Intent cbusIntent = new Intent(this, CodeBookUpdaterService.class);
+													//Send the codebook updater the mac
+													//cbusIntent.putExtra(CodeBookUpdaterService.MAC_IN_MSG, macData);
+													//startService(cbusIntent);
+												}
+											}
+											//close the cursor
+											cursor.close();
+											//End database operations
+
+
+									}
+									tempSSID = tempSSID.substring(posLows + 5);
+								}
+								//tempSSID = tempSSID.subSequence(posLows + 4, posLows).toString();
+								//LoWS tempLows = new LoWS(tempReadAp, tempSSID, 3); //Lows Cisco Embedding is always 3 Byte
+								//lows.add(tempLows);
+								//Log.i(TAG, "added SSID embedded LoWS: " + tempString + "posLows: "+Integer.toString(posLows));
+								//debugText = debugText + "\n-" + "added SSID embedded LoWS: " +tempSSID;
+							}
+						}
+					}
+				}
+
+			}
+			mainWifiObj.startScan();
+
+		}
+
+		public void onReceive(Context c, Intent intent) {
+			getWifi();
+			//start nlscanner binary to get all the ScanResults from the driver
+			//startNLscanner();
+			//wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+			//List<ScanResult> results = mainWifiObj.getScanResults();
+			//for (ScanResult result : results) {
+			//    Log.d("WifiScanReceiver",
+			//            String.format("\n%s (%s) %dMHz %ddBm", result.SSID, result.capabilities,
+			//                    result.frequency, result.level));
+			//}
+			//lowsParser();
+		}
+
+	}
+
+
+
 
 	@Override
 	public void onBackPressed() {

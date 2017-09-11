@@ -90,14 +90,14 @@ public class BEPSLoWSReducedType implements LoWSReducedType{
 	@Override
 	public boolean showAlarmSwitch() {
 		// TODO Auto-generated method stub
-		return true;
+		return false;
 	}
 
 
 	@Override
 	public boolean getAlarmStartState() {
 		// TODO Auto-generated method stub
-		return true;
+		return false;
 	}
 
 	/**
@@ -1648,43 +1648,43 @@ public class BEPSLoWSReducedType implements LoWSReducedType{
 		String modifyText = new String();
 		if(bepID.charAt(0)=='R')
 		{
-			modifyText = modifyText + "Fire in the area where you received the BEP message. Follow R-A-C-E procedures.\n\n"; 
-			modifyText = modifyText + "R escue anyone in danger\nA ctivate the fire alarm\nC ontain the fire by closing doors\nE vacuate to designated reassembly area\n";
+			modifyText = modifyText + "Fire in the area where you received the BEPS message.\n\n";
+			//modifyText = modifyText + "R escue anyone in danger\nA ctivate the fire alarm\nC ontain the fire by closing doors\nE vacuate if not told otherwise\n";
 		}
 		else if(bepID.charAt(0)=='b')
 		{
 			modifyText = modifyText + "Tornado, heavy rain, high winds, hail or other weather situation is on collision course for your current location!\n\n";
-			modifyText = modifyText + "Move to your designated internal shelter area. Avoid windows, glass, and open areas. Do not go outside. Always evacuate laboratories";
+			//modifyText = modifyText + "Move to your designated internal shelter area. Avoid windows, glass, and open areas. Do not go outside. Always evacuate laboratories";
 		}
 		else if(bepID.charAt(0)=='G')
 		{
 			modifyText = modifyText + "Major or minor internal damage in your current location that requires relocation or evacuation\n\n";
-			modifyText = modifyText + "Evacuate immediately to your designated reassembly location outside. Otherwise, close all doors and stay in place until the code is cleared or you are told to evacuate.";
+			//modifyText = modifyText + "Evacuate immediately to your designated reassembly location outside. Otherwise, close all doors and stay in place until the code is cleared or you are told to evacuate.";
 		}
 		else if(bepID.charAt(0)=='B')
 		{
 			modifyText = modifyText + "A bomb threat has been received and/or an explosive device located.\n\n";
-			modifyText = modifyText + "Evacuate the building via alternate exits, leaving doors and windows open. Take personal belongings with you, noting any suspicious parcels in your area as you leave. Move to assembly point maintaining a clear distance from parked vehicles. Follow closely the instructions of emergency services personnel and campus wardens.";
+			//modifyText = modifyText + "Evacuate the building via alternate exits, leaving doors and windows open. Take personal belongings with you, noting any suspicious parcels in your area as you leave. Move to assembly point maintaining a clear distance from parked vehicles. Follow closely the instructions of emergency services personnel and campus wardens.";
 		}
 		else if(bepID.charAt(0)=='W')
 		{
 			modifyText = modifyText + "An internal disaster or other situation has been occured requiring evacuation of the whole facility\n\n";
-			modifyText = modifyText + "Evacuate immediately to designated reassembly location outside using predetermined routes.\n";
+			//modifyText = modifyText + "Evacuate immediately to designated reassembly location outside using predetermined routes.\n";
 		}
 		else if(bepID.charAt(0)=='P')
 		{
 			modifyText = modifyText + "A child is missing or has been abducted\n\n";
-			modifyText = modifyText + "Clear corridors and do not allow visitors to leave the area. Observe movement in public areas and report any suspicious activity to the police.\n"; 
+			//modifyText = modifyText + "Clear corridors and do not allow visitors to leave the area. Observe movement in public areas and report any suspicious activity to the police.\n";
 		}
 		else if(bepID.charAt(0)=='O')
 		{
 			modifyText = modifyText + "A person is behaving in an actively hostile fashion (physical or verbal act(s) which could cause pain or harm.\n\n";
-			modifyText = modifyText + "Entgegengesetztes Verhalten als bei Feuer, Rauch, Gas! Kein Feueralarm auslösen! Oberste Priorität: schnelle Selbstrettung. Nicht auf den Flur laufen. Keinesfalls das Gespräch mit dem Amokläufer suchen oder versuchen, den Amokläufer aufzuhalten. Das ist einzig die Aufgaben der Polizei! Im Raum einschließen. Türen von innen mit Möbeln verbarrikadieren. Weitere Handlungen nach Selbstrettung: Nachbarkollegen und -kolleginnen telefonisch informieren. Polizei informieren (110). Nicht hinter der Tür aufhalten. Handys wegstecken (Amokläufer attackieren besonders Handyträger). Hilferuf an Fenster kleben, z.B.: \nHilfe Amok!\n10 Personen in Not\n2 Verletzte\nRaum 504\n"; 
+			//modifyText = modifyText + "Entgegengesetztes Verhalten als bei Feuer, Rauch, Gas! Kein Feueralarm auslösen! Oberste Priorität: schnelle Selbstrettung. Nicht auf den Flur laufen. Keinesfalls das Gespräch mit dem Amokläufer suchen oder versuchen, den Amokläufer aufzuhalten. Das ist einzig die Aufgaben der Polizei! Im Raum einschließen. Türen von innen mit Möbeln verbarrikadieren. Weitere Handlungen nach Selbstrettung: Nachbarkollegen und -kolleginnen telefonisch informieren. Polizei informieren (110). Nicht hinter der Tür aufhalten. Handys wegstecken (Amokläufer attackieren besonders Handyträger). Hilferuf an Fenster kleben, z.B.: \nHilfe Amok!\n10 Personen in Not\n2 Verletzte\nRaum 504\n";
 		}
 		else if(bepID.charAt(0)=='Y')
 		{
 			modifyText = modifyText + "A medical emergency occured in your area.\n\n";
-			modifyText = modifyText + "Assigned medical personell should respond immediately, all others should avoid contact with other persons until the code is cleared.";
+			//modifyText = modifyText + "Assigned medical personell should respond immediately, all others should avoid contact with other persons until the code is cleared.";
 		}
 		modifyText = modifyText + "\n";
 		

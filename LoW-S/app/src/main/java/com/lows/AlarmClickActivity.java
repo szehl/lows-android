@@ -70,6 +70,7 @@ public class AlarmClickActivity extends Activity{
 	String enhancedText;
 	String iconName;
 	String outputString;
+	String lboutputString;
 	Button clearButton;
 	
 	Intent BackgroundScannerIntent;
@@ -81,11 +82,12 @@ public class AlarmClickActivity extends Activity{
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.alarm_click_activity);
 	    addAllTypes();
-	    final ImageView iconView = (ImageView) findViewById(R.id.icon);
+	    final ImageView iconView = (ImageView) findViewById(R.id.bepsImage);
 	    final TextView typeTextView = (TextView) findViewById(R.id.typeText);
 	    clearButton = (Button) findViewById(R.id.clear_button);
 	    final TextView displayTextView = (TextView) findViewById(R.id.displayText);
 	    final TextView outputTextView = (TextView) findViewById(R.id.output_text);
+		final TextView lbTextView = (TextView) findViewById(R.id.lboutput_text);
 	    Bundle bundle = getIntent().getExtras();
 	    displayString = bundle.getString("displayMessage");
 	    matchString = bundle.getString("matchString");
@@ -95,6 +97,7 @@ public class AlarmClickActivity extends Activity{
 	    signalStrength = bundle.getDouble("signalStrength");
 	    frequency = bundle.getInt("frequency");
 	    type = bundle.getInt("type");
+		int serviceType = type;
 	    serviceData = bundle.getString("serviceData");
 	    searchNCompareData= bundle.getStringArray("searchNCompareData");
 		alarmMessagesData= bundle.getStringArray("alarmMessagesData");
@@ -171,7 +174,8 @@ public class AlarmClickActivity extends Activity{
 				    	}
 				    }    // always close the cursor
 				    cursor.close();
-				    outputString = outputString + dataValue;
+				    outputString = outputString;
+				    lboutputString = dataValue;
 				    
 				    //End database  
 				  
@@ -203,6 +207,14 @@ public class AlarmClickActivity extends Activity{
 	       
 	    
 	    iconView.setImageResource(getImageId(getApplicationContext(), iconName));
+		if(serviceType==33)
+		{
+			iconView.setImageResource(R.drawable.beps);
+			if(serviceData.equals("5245"))
+			{
+				iconView.setImageResource(R.drawable.evaplan);
+			}
+		}
 	    typeTextView.setText(typeText);
 	    displayTextView.setText(displayString);
 	    if(outputString != null)
@@ -213,6 +225,14 @@ public class AlarmClickActivity extends Activity{
 	    {
 	    	outputTextView.setVisibility(View.INVISIBLE);
 	    }
+		if(lboutputString != null)
+		{
+			lbTextView.setText(lboutputString);
+		}
+		else
+		{
+			lbTextView.setVisibility(View.INVISIBLE);
+		}
 	    
 	   
 	    

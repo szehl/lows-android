@@ -497,6 +497,8 @@ public class LowsBackgroundAlarmScanner extends IntentService {
 			Log.i(TAG, "ieParser() Finished");
 			//start the LoWS Parser
 			lowsParser();
+			//Remove Double LoWS
+			removeDoubleLows();
 			//start to compare the found LoWS with the search strings
 			compareResultWithSearchStrings();
 		}
@@ -548,13 +550,113 @@ public class LowsBackgroundAlarmScanner extends IntentService {
 					//We have a lows in extended (flexible) Format
 					parseExtendedLows(i);
 				}
+
 				
 			}
 		}
 	
 	}
-	
-    /**
+
+
+	/**
+	 * Delete double LoWS entries from LoWS List,
+	 * E.g. Cisco APs often broadcast multiple BSSIDs and include the LoWS message
+	 * in all beacons from all this BSSs, to not display the same LoWS in the ScanResults
+	 * for the user, the double LoWS have to be removed.
+	 */
+	public void removeDoubleLows() {
+
+		if (lows == null) {
+			return;
+		} else {
+			String bestBepsBssid = findBestBEPS();
+			Log.i(TAG, "Best BEPS BSSID: " + bestBepsBssid);
+
+			LoWS tempReadLows;
+			LoWS tempCompareLows;
+			int toRemove = -1;
+			for (int l = 0; l < lows.size(); l++) {
+				tempReadLows = lows.get(l);
+				//Remove double BEPS, we only need one with the highest RSSI
+				String tempLowsData = tempReadLows.getLowsServiceData();
+				int tempType = tempReadLows.getType();
+				if (tempType == 33 && bestBepsBssid != "") //If it is BEPS
+				{
+					AccessPoint tempAccessPoint = tempReadLows.getApData();
+					String tempBSSID = tempAccessPoint.getBssid();
+					Log.i(TAG, "Checking BSSID: " + tempBSSID);
+					if (!tempBSSID.equals(bestBepsBssid)) {
+						toRemove = l;
+						Log.i(TAG, "Remove LowS with BSSID: " + tempBSSID + " and index: " + l);
+						break;
+					}
+				}
+
+				int tempReadType = tempReadLows.getType();
+				for (int k = 0; k < lows.size(); k++) {
+					if (k != l) {
+						tempCompareLows = lows.get(k);
+						String tempCompareData = tempCompareLows.getLowsServiceData();
+						int tempCompareType = tempCompareLows.getType();
+						if (tempLowsData.equals(tempCompareData) && (tempReadType == tempCompareType)) {
+							Log.i(TAG, "Double LoWS found: " + tempLowsData + "==" + tempCompareData);
+							toRemove = k;
+							break;
+						}
+					}
+				}
+				if (toRemove > 0) {
+					break;
+				}
+
+
+
+			}
+			if (toRemove > -1) {
+				lows.remove(toRemove);
+				Log.i(TAG, "LowS with index " + toRemove + " deleted");
+				removeDoubleLows();
+			}
+
+		}
+	}
+
+	/**
+	 * Describe THIS !!
+	 */
+	public String findBestBEPS() {
+		LoWS tempReadLows;
+		LoWS tempCompareLows;
+		int toRemove = 0;
+		int tempType;
+		String bssidBestBeps = "";
+		double bepsHighestRSSI = -100.0;
+		for (int l = 0; l < lows.size(); l++) {
+			tempReadLows = lows.get(l);
+			//Remove double BEPS, we only need one with the highest RSSI
+
+			tempType = tempReadLows.getType();
+			Log.i(TAG, "LoWS Type: " + tempType);
+			if (tempType == 33) //If it is BEPS
+			{
+				AccessPoint tempAccessPoint = tempReadLows.getApData();
+				double tempSignal = tempAccessPoint.getSignal();
+				String tempBSSID = tempAccessPoint.getBssid();
+				Log.i(TAG, "BEPS found: " + tempBSSID + "Signal: "+Double.toString(tempSignal));
+				//Find the beps with highest RSSI!!!!!!
+				if (bepsHighestRSSI < tempSignal) {
+					bepsHighestRSSI = tempSignal;
+					bssidBestBeps = tempBSSID;
+				}
+			}
+
+		}
+		return bssidBestBeps;
+
+	}
+
+
+	/**
      * Parse service data of the reduced LoWS message
      * @param i, index within the LoWS List
      * @param type, LoWS type, e.g. BEPS

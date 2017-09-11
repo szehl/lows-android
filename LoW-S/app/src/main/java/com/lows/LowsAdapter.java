@@ -23,15 +23,17 @@ public class LowsAdapter extends ArrayAdapter<String> {
 	  private final String[] values;
 	  private final String[] serviceText;
 	  private final String[] iconName;
+	  private final double[] rssiIndicator;
 	  private List<LoWS> lows;
 
-	  public LowsAdapter(Context context, List<LoWS> lows, String[] values, String[] serviceText, String[] iconName) {
+	  public LowsAdapter(Context context, List<LoWS> lows, String[] values, String[] serviceText, String[] iconName, double[] rssiIndicator) {
 	    super(context, R.layout.low_list_entry, values);
 	    this.lows=lows;
 	    this.context = context;
 	    this.values = values;
 	    this.serviceText = serviceText;
 	    this.iconName = iconName;
+		  this.rssiIndicator = rssiIndicator;
 	  }
 
 	  @Override
@@ -43,6 +45,8 @@ public class LowsAdapter extends ArrayAdapter<String> {
 	    TextView textViewTop = (TextView) rowView.findViewById(R.id.top);
 	   TextView textViewBottom = (TextView) rowView.findViewById(R.id.bottom);
 	    ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+		  ImageView rssiImg = (ImageView) rowView.findViewById(R.id.rssi);
+		  double rssiData = rssiIndicator[position];
  		
 	    textViewTop.setText(values[position]);
 	    if(serviceText[position].length()>70)
@@ -53,6 +57,22 @@ public class LowsAdapter extends ArrayAdapter<String> {
 	    {
 	    	textViewBottom.setText(serviceText[position]);
 	    }
+		  if(rssiData > -40.0)
+		  {
+			  rssiImg.setImageResource(R.drawable.wifi4);
+		  }
+		  else if(rssiData > -60.0 && rssiData < -40.0)
+		  {
+			  rssiImg.setImageResource(R.drawable.wifi3);
+		  }
+		  else if(rssiData > -80.0 && rssiData < -60.0)
+		  {
+			  rssiImg.setImageResource(R.drawable.wifi2);
+		  }
+		  else
+		  {
+			  rssiImg.setImageResource(R.drawable.wifi0);
+		  }
 
 	    String s = values[position];;
 	    imageView.setImageResource(getImageId(getContext(), iconName[position]));
