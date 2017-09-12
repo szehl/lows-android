@@ -40,6 +40,7 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 //import android.support.v13.content.ContextCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
@@ -77,7 +78,7 @@ public class LowsActivity extends Activity {
 
 	//Interval for the Background Alarm Scanner
 	//TODO Make this variable adjustable from the Settings Menu
-	private static int backgroundScannerInterval = 1;
+	private static int backgroundScannerInterval = 15;
 	//SectionsPager Adapter object
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	//TAG for debugging with logcat
@@ -136,7 +137,7 @@ public class LowsActivity extends Activity {
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 
 		//get Wifi System Service
-		mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		mainWifiObj = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		//Register Broadcast Receiver to IntentFilter
 		wifiReciever = new WifiScanReceiver();
 		registerReceiver(wifiReciever, new IntentFilter(
@@ -488,9 +489,15 @@ public class LowsActivity extends Activity {
 
 
 		private void getWifi() {
-			if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-				requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 0x12345);
-			} else {
+			if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+				if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+					requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 0x12345);
+				} else {
+					doGetWifi(); // the actual wifi scanning
+				}
+			}
+			else
+			{
 				doGetWifi(); // the actual wifi scanning
 			}
 		}
