@@ -1,11 +1,9 @@
 package com.lows;
 
-import java.io.IOException;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.TimeoutException;
 import java.util.ArrayList;
 
 import com.google.android.gms.appindexing.Action;
@@ -13,9 +11,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.lows.contentprovider.MyCodeBookContentProvider;
 import com.lows.database.CodeBookTable;
-//import com.stericson.RootTools.RootTools;
-//import com.stericson.RootTools.exceptions.RootDeniedException;
-//import com.stericson.RootTools.execution.Command;
+
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -29,7 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-//import android.support.v13.app.FragmentPagerAdapter;
+
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -39,19 +35,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-//import android.support.v13.content.ContextCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import android.app.AlertDialog;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Main LoWS Receiver Application Activity
@@ -78,7 +65,7 @@ public class LowsActivity extends Activity {
 
 	//Interval for the Background Alarm Scanner
 	//TODO Make this variable adjustable from the Settings Menu
-	private static int backgroundScannerInterval = 15;
+	private static int backgroundScannerInterval = 5;
 	//SectionsPager Adapter object
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	//TAG for debugging with logcat
@@ -147,52 +134,12 @@ public class LowsActivity extends Activity {
 		//Start the IEEE 802.11 scan via the Wifi System Service APO
 		mainWifiObj.startScan();
 
-
-		//Set RootTools in debug mode (could be turned off if not needed anymore)
-//        RootTools.debugMode = true;
-		//Set the BackgroundScannerIntent to the correct class
 		BackgroundScannerIntent = new Intent(this, LowsBackgroundAlarmScanner.class);
-		//Check if we have root access
-		/*deprecated, we do not do this anymore,
-		*if someone has a rooted phone, he is asked to give root access
-        *therefore anybody thinks we would need root, but we don't*/
-		/*
-		if (RootTools.isAccessGiven()) {
-            // your app has been granted root access
-        	setTitle("Location-based Wifi Services");
-        	gotRoot=1;
-        	debugText = debugText + "\n-Device is rooted";
-        }
-        else
-        {
-        	setTitle("Location-based Wifi Services");
-        	gotRoot=0;
-        	debugText = debugText + "\n-Device is not rooted";
-        }
-        */
+
 		//We just set the title and set gotRoot to zero, We don't need root anymore!
 		setTitle("Location-based Wifi Services");
 		gotRoot = 0;
 		debugText = debugText + "\n-Root check disabled";
-		//This lines above should be commented out if root check should be done...
-
-		//Install Binary to get the ScanResults from Driver using Netlink NL80211 communication
-		//Source Code of binary can be found in project/jni folder, to build run ndk-build command
-		//Afterwards binary had to be copied into res/raw folder
-		//if (RootTools.installBinary(LowsActivity.this, R.raw.nlscanner, "nlscanner") == false) {
-		//	debugText = debugText + "\n-Extraction of nlscanner binary failed.";
-		//	new AlertDialog.Builder(LowsActivity.this)
-		//			.setTitle("Extract failed")
-		//			.setMessage("LoW-S was not able to install nlscanner binary!")
-		//			.setNeutralButton("ok", null).show();
-		//}
-		//else
-		//{
-		//	debugText = debugText + "\n-Extraction of nlscanner binary succeded.";
-		//}
-		//Set execution permissions to make the nlscanner binary executable
-		//setExecPerm();
-		//Load all currently supported LoWS Types
 		addAllTypes();
 
 		//Load preinstalled Codebooks
@@ -546,138 +493,10 @@ public class LowsActivity extends Activity {
 
 		public void onReceive(Context c, Intent intent) {
 			getWifi();
-			//start nlscanner binary to get all the ScanResults from the driver
-			//startNLscanner();
-			//wifimanager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-			//List<ScanResult> results = mainWifiObj.getScanResults();
-			//for (ScanResult result : results) {
-			//    Log.d("WifiScanReceiver",
-			//            String.format("\n%s (%s) %dMHz %ddBm", result.SSID, result.capabilities,
-			//                    result.frequency, result.level));
-			//}
-			//lowsParser();
 		}
 
 	}
 
-	/**
-	 * This function executes the nlscanner binary and parses all the output (ScanResults) into
-	 * our AccessPoint ArrayList. It afterwards starts the ieParser() function.
-	 */
-	/*
-	void startNLscanner()
-    {
-		//debugText = debugText + "\n-" + "startNLscanner() called.";
-		aps = new ArrayList<AccessPoint>();
-		//Set new RootTools command that executes the nlscanner binary
-		Command command = new Command(0, "/data/data/com.lows/files/nlscanner"){
-
-			//If the nlscanner binary was successfully executed, start the ieParser() function
-			public void commandCompleted(int id, int exitCode) {
-				ieParser();
-			}
-*/
-
-
-
-			/*The output of the nlscanner binary includes the data of the ScanResults,
-			* therefore, this function had to parse the raw output of the nlscanner
-			* and put the data into our AccessPoint List.
-			*/
-
-/*
-			public void commandOutput(int id, String line) {
-				//String modifyText = outputText.getText().toString();
-				String delimiter = new String();
-				int pos;
-*/
-				/*Detect when a new AccessPoint Entry starts (*), when this was detected, add the old AccessPoint
-				* entry to the List and allocate a new AccessPoint entry (Only if this is not the first 
-				* AccessPoint entry !(#)). 
-				*/
-/*
-				if(line.indexOf("*")==0||line.indexOf("#")==0)
-				{
-					if(!(line.indexOf("#")==0))
-					{
-						aps.add(tempAp);
-					}
-						
-					tempAp = new AccessPoint();
-				}
-				//Save BSS MAC
-				else if(line.indexOf(delimiter = "BSS ")!=-1)
-				{
-					pos = line.indexOf(delimiter);
-				    tempAp.setBssid(line.substring( pos + delimiter.length() ));
-				}
-				//Save freq
-				else if(line.indexOf(delimiter = "freq: ")!=-1)
-				{
-					pos = line.indexOf(delimiter);
-				    tempAp.setFreq(  Integer.parseInt(line.substring(pos + delimiter.length())) );
-				}
-				//Save beacon interval
-				else if(line.indexOf(delimiter = "interval: ")!=-1)
-				{
-					pos = line.indexOf(delimiter);
-				    tempAp.setBeaconInterval(  Integer.parseInt(line.substring(pos + delimiter.length())) );	
-				}	
-				//Save signal in dbm
-				else if(line.indexOf(delimiter = "(dBm): ")!=-1)
-				{
-					pos = line.indexOf(delimiter);
-				    tempAp.setSignal(  Double.parseDouble(line.substring(pos + delimiter.length())) );	
-				}
-				//Save how old the entry is
-				else if(line.indexOf(delimiter = "(ms ago): ")!=-1)
-				{
-					pos = line.indexOf(delimiter);
-				    tempAp.setLastSeen(  Integer.parseInt(line.substring(pos + delimiter.length())) );	
-				}
-				//Save SSID
-				else if(line.indexOf(delimiter = "SSID: ")!=-1)
-				{
-					pos = line.indexOf(delimiter);
-				    tempAp.setSsid(line.substring( pos + delimiter.length() ));
-				}
-				//Save IE data!
-				else if(line.indexOf(delimiter = "IE data (hex): ")!=-1)
-				{
-					pos = line.indexOf(delimiter);
-				    tempAp.addIE(line.substring( pos + delimiter.length() ));		    
-				}	
-			}
-
-			//If the command was terminated tell this via the debug text + error reason
-			public void commandTerminated(int id, String reason) {
-				debugText = debugText + "\n-" + "nlscanner terminated, *Scanning Error*" + reason + "*";
-			}
-			
-		};
-		
-		//Execute the nlscanner binary!
-        try {
-			RootTools.getShell(false).add(command);
-		} catch (IOException e) {
-			new AlertDialog.Builder(LowsActivity.this)
-			.setTitle("IOException failed")
-			.setMessage("IOException when executing nlscanner binary")
-			.setNeutralButton("okaay", null).show();
-		} catch (TimeoutException e) {
-			new AlertDialog.Builder(LowsActivity.this)
-			.setTitle("TimeoutException failed")
-			.setMessage("TimeoutException when executing nlscanner binary")
-			.setNeutralButton("okaay", null).show();
-		} catch (RootDeniedException e) {
-			new AlertDialog.Builder(LowsActivity.this)
-			.setTitle("RootDeniedException failed")
-			.setMessage("RootDeniedException when executing nlscanner binary")
-			.setNeutralButton("okay", null).show();
-		}
-    
-    }
-*/
 	private static String asciiToHex(String asciiValue) {
 		char[] chars = asciiValue.toCharArray();
 		StringBuffer hex = new StringBuffer();
@@ -732,11 +551,6 @@ public class LowsActivity extends Activity {
 									Log.i(TAG, "added SSID embedded LoWS: " + tempString + "posLows: " + Integer.toString(posLows) + "tempHex: " + tempHex);
 									tempSSID = tempSSID.substring(posLows + 5);
 								}
-								//tempSSID = tempSSID.subSequence(posLows + 4, posLows).toString();
-								//LoWS tempLows = new LoWS(tempReadAp, tempSSID, 3); //Lows Cisco Embedding is always 3 Byte
-								//lows.add(tempLows);
-								//Log.i(TAG, "added SSID embedded LoWS: " + tempString + "posLows: "+Integer.toString(posLows));
-								//debugText = debugText + "\n-" + "added SSID embedded LoWS: " +tempSSID;
 							}
 						}
 					}
@@ -817,14 +631,22 @@ public class LowsActivity extends Activity {
 			LoWS tempReadLows;
 			LoWS tempCompareLows;
 			int toRemove = -1;
+			int tempTs = 0;
 			for (int l = 0; l < lows.size(); l++) {
 				tempReadLows = lows.get(l);
+				AccessPoint tempAccessPoint = tempReadLows.getApData();
+				if(tempReadLows.getType()==63)
+				{
+					if(tempReadLows.getLowsServiceData().subSequence(0, 2).equals("55"))
+					{
+						tempTs = tempAccessPoint.getLastSeen();
+					}
+				}
 				//Remove double BEPS, we only need one with the highest RSSI
 				String tempLowsData = tempReadLows.getLowsServiceData();
 				int tempType = tempReadLows.getType();
 				if (tempType == 33 && bestBepsBssid != "") //If it is BEPS
 				{
-					AccessPoint tempAccessPoint = tempReadLows.getApData();
 					String tempBSSID = tempAccessPoint.getBssid();
 					Log.i(TAG, "Checking BSSID: " + tempBSSID);
 					if (!tempBSSID.equals(bestBepsBssid)) {
@@ -839,6 +661,22 @@ public class LowsActivity extends Activity {
 					if (k != l) {
 						tempCompareLows = lows.get(k);
 						String tempCompareData = tempCompareLows.getLowsServiceData();
+						if(tempCompareLows.getType()==63 && tempTs!=0)
+						{
+							if(tempCompareData.subSequence(0, 2).equals("55"))
+							{
+								AccessPoint tempCompareAccessPoint = tempCompareLows.getApData();
+								int tempCompareTs = tempCompareAccessPoint.getLastSeen();
+								if(tempCompareTs > tempTs)
+								{
+									toRemove = k;
+								}
+								else
+								{
+									toRemove = l;
+								}
+							}
+						}
 						int tempCompareType = tempCompareLows.getType();
 						if (tempLowsData.equals(tempCompareData) && (tempReadType == tempCompareType)) {
 							Log.i(TAG, "Double LoWS found: " + tempLowsData + "==" + tempCompareData);
@@ -896,6 +734,7 @@ public class LowsActivity extends Activity {
 		return bssidBestBeps;
 
 	}
+
 
 
 	/**
