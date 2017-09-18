@@ -86,7 +86,12 @@ public class DebugFragment extends Fragment {
 			    String[] alarmMessagesData = ((LowsActivity)getActivity()).getAlarmMessagesDataArray();
 			    int i=0;
 			    int numberSearchStrings = searchNCompareData.length; 
-				headLine.setText("Current Background Scanner Searchstrings");
+				headLine.setText("About");
+				outputText.setText("This app is the receiver application belonging to the Mobicom 2017 demo named: Stuffing Wi-Fi Beacons for Fun and Profit\n\n\tProgrammed by "+"Sven Zehl\n \n\tTechnische Universität Berlin \n\tInstitute of Telecommunication Systems\n\tTelecommunication Networks Group (TKN)\n" +
+						"\tEinsteinufer 25, FT 5\n" +
+						"\t10587 Berlin, Germany\n\n" +
+						"\tsvenzehl@gmail.com\n");
+				/*
 				if(searchNCompareData==null || alarmMessagesData ==null)
 				{
 					outputText.setText("Database is empty.");
@@ -104,6 +109,7 @@ public class DebugFragment extends Fragment {
 				    }
 				    outputText.setText(modifyText);
 				}
+				*/
 				
 			}
 			

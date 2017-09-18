@@ -4,6 +4,7 @@ package com.lows;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -12,6 +13,7 @@ import java.util.concurrent.TimeoutException;
 //import com.stericson.RootTools.execution.Command;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -24,6 +26,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 //import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -49,6 +53,8 @@ import android.util.Log;
  */
 public class LowsBackgroundAlarmScanner extends IntentService {
 
+	private static int backgroundScannerInterval = 5;
+
 	private static final String TAG = "com.lows.LowsBackgroundAlarmScanner";
 	//search strings
 	private String[] searchNCompareData;
@@ -66,10 +72,32 @@ public class LowsBackgroundAlarmScanner extends IntentService {
 	private AccessPoint tempAp;
 	//LoWS List
 	private List<LoWS> lows;
-	
+
+
+	Intent BackgroundScannerIntent;
+	PendingIntent BackgroundScannerPendingIntent;
+	AlarmManager alarm;
+
+
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+
+		// this gets called properly
+		Log.d("myTag", "Service onCreate()");
+		mainWifiObj = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+		//New Broadcast Receiver
+		wifiRecieverBackground = new WifiBackgroundScanReceiver();
+		registerReceiver(wifiRecieverBackground, new IntentFilter(
+				WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+	}
+
 	@Override
 	protected void onHandleIntent(Intent arg0) {
 		Log.i(TAG, "Background Scanner Intent Service started");
+
+
 		//Get the searchStrings and the DisplayStrings
 		searchNCompareData=arg0.getStringArrayExtra("searchNCompareData");
 		alarmMessagesData=arg0.getStringArrayExtra("alarmMessagesData");
@@ -87,13 +115,53 @@ public class LowsBackgroundAlarmScanner extends IntentService {
 		{
 			//what else?
 		}
+		//if (android.os.Build.VERSION.SDK_INT >= 23){
+		startChangeBackgroundScanService();
+		//}
 		//Start the Background Scanner 
 		scanNsearch();
 
 	}
 
+
+
+	public void startChangeBackgroundScanService()
+	{
+		if((searchNCompareData == null || alarmMessagesData == null))
+		{
+			searchNCompareData = new String[0];
+			alarmMessagesData = new String[0];
+		}
+		BackgroundScannerIntent = new Intent(this, LowsBackgroundAlarmScanner.class);
+		alarm = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+		Calendar cal = Calendar.getInstance();
+		BackgroundScannerIntent.removeExtra("searchNCompareData");
+		BackgroundScannerIntent.removeExtra("alarmMessagesData");
+		BackgroundScannerIntent.putExtra("searchNCompareData", searchNCompareData);
+		BackgroundScannerIntent.putExtra("alarmMessagesData", alarmMessagesData);
+
+		BackgroundScannerPendingIntent = PendingIntent.getService(this, 0, BackgroundScannerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		// Start every 15 seconds
+		//alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), backgroundScannerInterval*1000, BackgroundScannerPendingIntent);
+		//if (android.os.Build.VERSION.SDK_INT >= 23){
+		//	alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + backgroundScannerInterval * 1000, BackgroundScannerPendingIntent);
+			//alarm.setExact(AlarmManager.RTC_WAKEUP, backgroundScannerInterval * 1000, intent);
+		//}
+		if (Build.VERSION.SDK_INT >= 23) {
+			alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis()+ backgroundScannerInterval * 1000, BackgroundScannerPendingIntent);
+		} else if (Build.VERSION.SDK_INT >= 19) {
+			alarm.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis()+ backgroundScannerInterval * 1000, BackgroundScannerPendingIntent);
+		} else {
+			alarm.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis()+ backgroundScannerInterval * 1000, BackgroundScannerPendingIntent);
+		}
+		//alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, backgroundScannerInterval * 1000, BackgroundScannerPendingIntent);
+	}
+
+
+
 	public LowsBackgroundAlarmScanner() {
-	 	   super("LowsBackgroundAlarmScanner");
+
+		super("LowsBackgroundAlarmScanner");
 	}
 	
 	/**
@@ -102,12 +170,7 @@ public class LowsBackgroundAlarmScanner extends IntentService {
 	void scanNsearch()
 	{
 		//Get the Wifi System Service
-		mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-		//New Broadcast Receiver
-		wifiRecieverBackground = new WifiBackgroundScanReceiver();
-		registerReceiver(wifiRecieverBackground, new IntentFilter(
-                WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-		//Start the IEEE 802.11 scan via the Wifi System Service APO
+				//Start the IEEE 802.11 scan via the Wifi System Service APO
 		mainWifiObj.startScan(); 
 		/*Only exit this function when the scan was completed, if this is not done, the BackgroundScanner 
 		 * is terminated before the scan was complete!
@@ -814,7 +877,7 @@ public class LowsBackgroundAlarmScanner extends IntentService {
 		int mID=2;
 		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
 	    .setSmallIcon(R.drawable.ic_launcher)
-	    .setContentTitle("LoW-S Alarm")
+	    .setContentTitle("LoWS Alarm")
 	    .setContentText(displayMessage);
 		
 		//Prepare the Intent that starts the AlarmClickActivity when the user taps on the notification
@@ -846,7 +909,7 @@ public class LowsBackgroundAlarmScanner extends IntentService {
 		NotificationCompat.InboxStyle inboxStyle =
 	        new NotificationCompat.InboxStyle();
 		// Sets a title for the Inbox in expanded layout
-		inboxStyle.setBigContentTitle("LoW-S Alarm");
+		inboxStyle.setBigContentTitle("LoWS Alarm");
 	    inboxStyle.addLine(displayMessage);
 		mBuilder.setStyle(inboxStyle);
 		//mBuilder.setContentIntent(resultPendingIntent);
@@ -857,6 +920,8 @@ public class LowsBackgroundAlarmScanner extends IntentService {
 	    note.defaults |= Notification.DEFAULT_SOUND;
 	    note.defaults |= Notification.PRIORITY_MAX;
 	    note.flags |= Notification.FLAG_AUTO_CANCEL;
+		Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+		v.vibrate(500);
 	    //mId would allow to update the notification later on, we do not need it at the moment
 	    mNotificationManager.notify(mID, note);
 	}

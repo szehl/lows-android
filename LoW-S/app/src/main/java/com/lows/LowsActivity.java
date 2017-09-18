@@ -33,6 +33,7 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
@@ -65,7 +66,7 @@ public class LowsActivity extends Activity {
 
 	//Interval for the Background Alarm Scanner
 	//TODO Make this variable adjustable from the Settings Menu
-	private static int backgroundScannerInterval = 5;
+	private static int backgroundScannerInterval = 15;
 	//SectionsPager Adapter object
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	//TAG for debugging with logcat
@@ -1061,7 +1062,24 @@ public class LowsActivity extends Activity {
 
 		BackgroundScannerPendingIntent = PendingIntent.getService(this, 0, BackgroundScannerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		// Start every 15 seconds
-		alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), backgroundScannerInterval * 1000, BackgroundScannerPendingIntent);
+		//if (android.os.Build.VERSION.SDK_INT >= 23){
+		//	alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, backgroundScannerInterval * 1000, BackgroundScannerPendingIntent);
+		//}
+		//else {
+		//	alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), backgroundScannerInterval * 1000, BackgroundScannerPendingIntent);
+		//}
+
+		if (Build.VERSION.SDK_INT >= 23) {
+			alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), BackgroundScannerPendingIntent);
+		} else if (Build.VERSION.SDK_INT >= 19) {
+			alarm.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), BackgroundScannerPendingIntent);
+		} else {
+			alarm.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), BackgroundScannerPendingIntent);
+		}
+
+		//alarm.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+		//		SystemClock.elapsedRealtime() + backgroundScannerInterval * 1000,
+		//		backgroundScannerInterval * 1000, BackgroundScannerPendingIntent);
 	}
 
 

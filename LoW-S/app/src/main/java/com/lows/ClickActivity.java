@@ -151,7 +151,7 @@ public class ClickActivity extends Activity {
 		}
 
 		//get Wifi System Service
-		mainWifiObj = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		mainWifiObj = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		//Register Broadcast Receiver to IntentFilter
 		wifiReciever = new WifiScanReceiver();
 		registerReceiver(wifiReciever, new IntentFilter(

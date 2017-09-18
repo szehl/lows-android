@@ -50,7 +50,7 @@ public class AlarmClickActivity extends Activity{
 	
 	//Interval for the Background Alarm Scanner
 	//TODO Make this variable adjustable from the Settings Menu
-	private static int backgroundScannerInterval = 15;
+	private static int backgroundScannerInterval = 5;
 	
 	private String[] searchNCompareData;
 	private String[] alarmMessagesData;
