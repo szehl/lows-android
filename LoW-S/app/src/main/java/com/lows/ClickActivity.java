@@ -150,6 +150,11 @@ public class ClickActivity extends Activity {
 			}
 		}
 
+		if(serviceType==67)
+		{
+			rssiImg.setImageResource(R.drawable.mobi);
+		}
+
 		//get Wifi System Service
 		mainWifiObj = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		//Register Broadcast Receiver to IntentFilter
@@ -408,6 +413,10 @@ public class ClickActivity extends Activity {
 						{
 							rssiImg.setImageResource(R.drawable.donald);
 						}
+					}
+					if(serviceType==67)
+					{
+						rssiImg.setImageResource(R.drawable.mobi);
 					}
 					//tempSSID = tempReadAp.getSsid();
 					int numLows = (tempSSID.length() - tempSSID.replace("^", "").length()) / 2;

@@ -20,7 +20,7 @@ public class CISLoWSReducedType implements LoWSReducedType{
 	@Override
 	public String getDisplayString() {
 		// TODO Auto-generated method stub
-		return "Physical Service Announcement (PSA)";
+		return "Mobicom 2017 Information Service";
 	}
 
 	@Override
@@ -33,21 +33,62 @@ public class CISLoWSReducedType implements LoWSReducedType{
 			String str = dataInHex.substring(p, p+2);
 			bepsID.append((char)Integer.parseInt(str, 16));
 		}
+
 		if(bepsID.charAt(0)=='S')
 		{
-			returnText = "Currently Ongoing Session";
+			returnText = "Current session";
+		}
+		else if(bepsID.charAt(0)=='A')
+		{
+			returnText = "Awards";
 		}
 		else if(bepsID.charAt(0)=='C')
 		{
-			returnText = "Coffee Break";
+			returnText = "Coffee break";
+		}
+		else if(bepsID.charAt(0)=='D')
+		{
+			returnText = "Demo Session";
 		}
 		else if(bepsID.charAt(0)=='L')
 		{
 			returnText = "Lunch";
 		}
-		else if(bepsID.charAt(0)=='T')
+		else if(bepsID.charAt(0)=='K')
 		{
-			returnText = "Currently Ongoing Talk";
+			returnText = "Keynote Talk";
+		}
+		else if(bepsID.charAt(0)=='P')
+		{
+			returnText = "Panel Session";
+		}
+		else if(bepsID.charAt(0)=='O')
+		{
+			returnText = "Poster Session";
+		}
+		else if(bepsID.charAt(0)=='R')
+		{
+			returnText = "Registration";
+		}
+		else if(bepsID.charAt(0)=='X')
+		{
+			returnText = "Current Event";
+		}
+		else if(bepsID.charAt(0)=='[')
+		{
+			returnText = "Event starting in 5min";
+		}
+		else if(bepsID.charAt(0)==']')
+		{
+			returnText = "Event starting in 3min";
+		}
+		else if(bepsID.charAt(0)=='}')
+		{
+			returnText = "Event starting in 1min";
+		}
+		else if(bepsID.charAt(0)=='t')
+		{
+			returnText = "Current Talk";
 		}
 		else
 		{

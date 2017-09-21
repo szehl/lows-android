@@ -1097,8 +1097,10 @@ public class LowsActivity extends Activity {
 		lowsRedType = new ArrayList<LoWSReducedType>();
 		BEPSLoWSReducedType bepsType = new BEPSLoWSReducedType();
 		PSALoWSReducedType psaType = new PSALoWSReducedType();
+        CISLoWSReducedType cisType = new CISLoWSReducedType();
 		lowsRedType.add(bepsType);
 		lowsRedType.add(psaType);
+        lowsRedType.add(cisType);
 
 
 		//Extended Types

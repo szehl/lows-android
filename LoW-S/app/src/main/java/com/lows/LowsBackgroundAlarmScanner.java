@@ -3,9 +3,14 @@ package com.lows;
 
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 //import com.stericson.RootTools.RootTools;
@@ -23,15 +28,21 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 //import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.lows.contentprovider.MyCodeBookContentProvider;
+import com.lows.database.CodeBookTable;
 
 
 /**
@@ -72,6 +83,9 @@ public class LowsBackgroundAlarmScanner extends IntentService {
 	private AccessPoint tempAp;
 	//LoWS List
 	private List<LoWS> lows;
+	//Notification Killer Map
+	//Map killIDs = new HashMap();
+	Map<Integer, Handler> killIDs = new HashMap<Integer, Handler>();
 
 
 	Intent BackgroundScannerIntent;
@@ -860,6 +874,12 @@ public class LowsBackgroundAlarmScanner extends IntentService {
     				sendNotification(alarmMessagesData[j], searchNCompareData[j], searchLow);
     			}
     		}
+    		if(searchLow.getType()==67){
+				//if(Integer.parseInt(searchLow.getLowsData().substring(0,2), 16) < 96) // Notify only big letter ascii messages
+				//{
+				sendNotificationCIS(searchLow);
+				//}
+			}
     	}
     }
     
@@ -925,4 +945,144 @@ public class LowsBackgroundAlarmScanner extends IntentService {
 	    //mId would allow to update the notification later on, we do not need it at the moment
 	    mNotificationManager.notify(mID, note);
 	}
+	void sendNotificationCIS(LoWS matchLows)
+	{
+
+		CISLoWSReducedType cisTypeTemp = new CISLoWSReducedType();
+		String serviceData = matchLows.getLowsServiceData();
+		String hardDataString = cisTypeTemp.decodeData(serviceData);
+		String hardcodedValue = "0x"+serviceData.substring(0,2);
+		int mID = Integer.parseInt(serviceData, 16);
+		if((Integer.parseInt(serviceData.substring(0,2), 16)>90 && Integer.parseInt(serviceData.substring(0,2), 16)<97)||(Integer.parseInt(serviceData.substring(0,2), 16)>122))
+		{
+			mID = 10;
+		}
+		else if((Integer.parseInt(serviceData.substring(0,2), 16)>97 && Integer.parseInt(serviceData.substring(0,2), 16)<123))
+		{
+			mID = 20;
+		}
+		else
+		{
+			mID = 30;
+		}
+		String codebookValue = "0x"+serviceData.substring(2,4);
+		String typeValue = "0x"+Integer.toHexString(matchLows.getType());
+		String macData = matchLows.getBssid();
+		String  typeString = cisTypeTemp.getDisplayString();
+		//Database Stuff
+		//Get correct row
+		Cursor cursor = getContentResolver().query(MyCodeBookContentProvider.CONTENT_URI, null,
+				"mac LIKE '"+macData+"' AND servicetype LIKE '"+ typeValue+
+						"' AND hardcodedvalue LIKE '"+hardcodedValue+
+						"' AND codebookvalue LIKE '"+codebookValue+"'",
+				null,null);
+
+		String dataValue="Currently no location specific data available (no codebook entry found)";
+		if (cursor != null)
+		{
+			if(cursor.getCount()>0)
+			{
+				cursor.moveToFirst();
+				dataValue = cursor.getString(cursor.getColumnIndexOrThrow(CodeBookTable.COLUMN_DATA));
+			}
+		}    // always close the cursor
+		cursor.close();
+
+		//End database
+
+
+
+
+		//int mID=2;
+
+
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+				.setSmallIcon(R.drawable.ic_launcher)
+				.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.mobi))
+				.setContentTitle(hardDataString)
+				.setContentText(dataValue);
+
+
+		NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
+		bigText.bigText(dataValue);
+		bigText.setBigContentTitle(hardDataString);
+		bigText.setSummaryText(typeString);
+		mBuilder.setStyle(bigText);
+		mBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
+
+
+
+
+		//Prepare the Intent that starts the AlarmClickActivity when the user taps on the notification
+		Intent resultIntent = new Intent(this, LowsActivity.class);
+		/*
+		resultIntent.putExtra("matchString", matchString);
+		resultIntent.putExtra("displayMessage", displayMessage);
+		resultIntent.putExtra("formatType", matchLows.getFormatType());
+		resultIntent.putExtra("BSSID", matchLows.getBssid());
+		resultIntent.putExtra("SSID", matchLows.getSsid());
+		resultIntent.putExtra("signalStrength", matchLows.getSignalStrength());
+		resultIntent.putExtra("frequency", matchLows.getFrequency());
+		resultIntent.putExtra("type", matchLows.getType());
+		resultIntent.putExtra("serviceData", matchLows.getLowsServiceData());
+		resultIntent.putExtra("alarmMessagesData", alarmMessagesData);
+		resultIntent.putExtra("searchNCompareData", searchNCompareData);
+		*/
+
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+		//Adds the back stack for the Intent (but not the Intent itself)
+		stackBuilder.addParentStack(AlarmClickActivity.class);
+		//Adds the Intent that starts the Activity to the top of the stack
+		stackBuilder.addNextIntent(resultIntent);
+		PendingIntent resultPendingIntent =
+				stackBuilder.getPendingIntent(
+						0,
+						PendingIntent.FLAG_UPDATE_CURRENT
+				);
+		mBuilder.setContentIntent(resultPendingIntent);
+
+		/*
+		NotificationCompat.InboxStyle inboxStyle =
+				new NotificationCompat.InboxStyle();
+		// Sets a title for the Inbox in expanded layout
+		inboxStyle.setBigContentTitle(hardDataString);
+		inboxStyle.addLine(dataValue);
+		mBuilder.setStyle(inboxStyle);
+		*/
+		//mBuilder.setContentIntent(resultPendingIntent);
+		NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(this.NOTIFICATION_SERVICE);
+		Notification note = mBuilder.build();
+		//note.defaults |= Notification.DEFAULT_VIBRATE;
+		//note.defaults |= Notification.DEFAULT_LIGHTS;
+		//note.defaults |= Notification.DEFAULT_SOUND;
+		//note.defaults |= Notification.PRIORITY_MAX;
+		note.flags |= Notification.FLAG_AUTO_CANCEL;
+		//Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+		//v.vibrate(500);
+		//mId would allow to update the notification later on, we do not need it at the moment
+		mNotificationManager.notify(mID, note);
+/*
+		if (killIDs.get(mID) == null) // doesn't exist
+		{
+			killIDs.put(mID, new Handler());
+			Log.i(TAG, "Adding new Handler!!!! mID: "+mID);
+
+		}
+
+		// exists
+		// do stuff with arr
+		final int killID = mID;
+		Handler handler = killIDs.get(mID);
+		handler.removeCallbacksAndMessages(null);
+		Log.i(TAG, "Starting killer runnable");
+		handler.postDelayed(new Runnable(){
+			@Override
+			public void run(){
+				NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+				notificationManager.cancel(killID);
+			}
+		}, 1000*60*1); //Delete Notification Automatically after 1min if not refrehsed
+		*/
+	}
+
 }
