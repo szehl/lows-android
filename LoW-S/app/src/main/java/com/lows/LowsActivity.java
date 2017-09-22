@@ -138,7 +138,7 @@ public class LowsActivity extends Activity {
 		BackgroundScannerIntent = new Intent(this, LowsBackgroundAlarmScanner.class);
 
 		//We just set the title and set gotRoot to zero, We don't need root anymore!
-		setTitle("Location-based Wifi Services");
+		setTitle("Location-based Wi-Fi Services");
 		gotRoot = 0;
 		debugText = debugText + "\n-Root check disabled";
 		addAllTypes();

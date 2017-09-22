@@ -58,11 +58,21 @@
       <file leaf-file-name="LowsActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/LowsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="1099" column="62" selection-start-line="1099" selection-start-column="8" selection-end-line="1099" selection-end-column="62" />
+            <state relative-caret-position="153">
+              <caret line="140" column="37" selection-start-line="140" selection-start-column="37" selection-end-line="140" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ResultListFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/ResultListFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2410">
+              <caret line="678" column="57" selection-start-line="678" selection-start-column="57" selection-end-line="678" selection-end-column="57" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -83,8 +93,18 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
+            <state relative-caret-position="-435">
               <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" column="49" selection-start-line="12" selection-start-column="49" selection-end-line="12" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -93,8 +113,8 @@
       <file leaf-file-name="MobicomDemoCodebook.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/MobicomDemoCodebook.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="301" column="57" selection-start-line="301" selection-start-column="57" selection-end-line="301" selection-end-column="57" />
+            <state relative-caret-position="332">
+              <caret line="203" column="58" selection-start-line="203" selection-start-column="58" selection-end-line="203" selection-end-column="58" />
               <folding />
             </state>
           </provider>
@@ -103,7 +123,7 @@
       <file leaf-file-name="CISLoWSReducedType.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/CISLoWSReducedType.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="690">
+            <state relative-caret-position="375">
               <caret line="91" column="9" selection-start-line="91" selection-start-column="9" selection-end-line="91" selection-end-column="9" />
               <folding />
             </state>
@@ -115,26 +135,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1365">
               <caret line="99" column="20" selection-start-line="99" selection-start-column="20" selection-end-line="99" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClickActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/ClickActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="659">
-              <caret line="419" column="21" selection-start-line="419" selection-start-column="21" selection-end-line="419" selection-end-column="21" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/build.gradle">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -156,8 +156,8 @@
       <file leaf-file-name="LowsBackgroundAlarmScanner.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/LowsBackgroundAlarmScanner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="965" column="21" selection-start-line="965" selection-start-column="21" selection-end-line="965" selection-end-column="21" />
+            <state relative-caret-position="662">
+              <caret line="996" column="43" selection-start-line="996" selection-start-column="43" selection-end-line="996" selection-end-column="43" />
               <folding>
                 <element signature="e#3042#3060#0" expanded="true" />
               </folding>
@@ -1972,7 +1972,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/lows/PSALoWSReducedType.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/alarm_click_activity.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/low_list_entry.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/lows/ResultListFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lows/LowsAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lows/BEPSLoWSReducedType.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
@@ -1983,10 +1982,11 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/lows/DebugFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lows/AlarmClickActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/lows/LowsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lows/ClickActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/lows/LowsBackgroundAlarmScanner.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lows/CISLoWSReducedType.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/lows/LowsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/lows/ResultListFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/lows/LowsBackgroundAlarmScanner.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/lows/MobicomDemoCodebook.java" />
       </list>
     </option>
@@ -2061,6 +2061,28 @@
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoW-S" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -2080,6 +2102,20 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="LoW-S" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -2092,7 +2128,7 @@
     <property name="restartRequiresConfirmation" value="true" />
     <property name="android.project.structure.last.selected" value="app" />
     <property name="android.project.structure.proportion" value="0.15" />
-    <property name="device.picker.selection" value="52001313b4a913f9" />
+    <property name="device.picker.selection" value="209fc0f0" />
     <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/app" />
     <property name="ExportApk.Flavors" value="" />
     <property name="ExportApk.BuildType" value="release" />
@@ -2732,14 +2768,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/ResultListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1320">
-          <caret line="154" column="109" selection-start-line="154" selection-start-column="109" selection-end-line="154" selection-end-column="109" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/PreinstalledCodebook.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -2871,14 +2899,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="39" selection-start-line="13" selection-start-column="39" selection-end-line="13" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/DebugFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="293">
@@ -2943,16 +2963,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/LowsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="1099" column="62" selection-start-line="1099" selection-start-column="8" selection-end-line="1099" selection-end-column="62" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/AlarmClickActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1233">
@@ -2961,17 +2971,6 @@
             <element signature="e#8694#12176#0" expanded="true" />
             <element signature="e#12175#12176#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2991,10 +2990,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-435">
+          <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="49" selection-start-line="12" selection-start-column="49" selection-end-line="12" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/LowsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="140" column="37" selection-start-line="140" selection-start-column="37" selection-end-line="140" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/ResultListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2410">
+          <caret line="678" column="57" selection-start-line="678" selection-start-column="57" selection-end-line="678" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/LowsBackgroundAlarmScanner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="965" column="21" selection-start-line="965" selection-start-column="21" selection-end-line="965" selection-end-column="21" />
+        <state relative-caret-position="662">
+          <caret line="996" column="43" selection-start-line="996" selection-start-column="43" selection-end-line="996" selection-end-column="43" />
           <folding>
             <element signature="e#3042#3060#0" expanded="true" />
           </folding>
@@ -3003,7 +3039,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/CISLoWSReducedType.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
+        <state relative-caret-position="375">
           <caret line="91" column="9" selection-start-line="91" selection-start-column="9" selection-end-line="91" selection-end-column="9" />
           <folding />
         </state>
@@ -3011,8 +3047,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/MobicomDemoCodebook.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="301" column="57" selection-start-line="301" selection-start-column="57" selection-end-line="301" selection-end-column="57" />
+        <state relative-caret-position="332">
+          <caret line="203" column="58" selection-start-line="203" selection-start-column="58" selection-end-line="203" selection-end-column="58" />
           <folding />
         </state>
       </provider>

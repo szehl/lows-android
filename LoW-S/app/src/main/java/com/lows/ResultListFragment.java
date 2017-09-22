@@ -134,7 +134,7 @@ public class ResultListFragment extends Fragment {
  	 */
  	private void displayListView() {
 	 		//Show Scanning in process dialog until updateListView() function is called
-	 		dialog = ProgressDialog.show(getActivity(), "LoWS scanning in progress", "Scanning for Location-based Wifi Services in your area...", true);
+	 		dialog = ProgressDialog.show(getActivity(), "LoWS scanning in progress", "Scanning for Location-based Wi-Fi Services in your area...", true);
 	 		
 	 		
 	 		//LoWS tempLows;

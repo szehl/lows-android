@@ -952,19 +952,56 @@ public class LowsBackgroundAlarmScanner extends IntentService {
 		String serviceData = matchLows.getLowsServiceData();
 		String hardDataString = cisTypeTemp.decodeData(serviceData);
 		String hardcodedValue = "0x"+serviceData.substring(0,2);
+		SharedPreferences pref10 = getApplicationContext().getSharedPreferences("PREF_TAG_TIMESTAMP10", Context.MODE_PRIVATE);
+		SharedPreferences pref20 = getApplicationContext().getSharedPreferences("PREF_TAG_TIMESTAMP20", Context.MODE_PRIVATE);
+		SharedPreferences pref30 = getApplicationContext().getSharedPreferences("PREF_TAG_TIMESTAMP30", Context.MODE_PRIVATE);
+		NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 		int mID = Integer.parseInt(serviceData, 16);
 		if((Integer.parseInt(serviceData.substring(0,2), 16)>90 && Integer.parseInt(serviceData.substring(0,2), 16)<97)||(Integer.parseInt(serviceData.substring(0,2), 16)>122))
 		{
 			mID = 10;
+			pref10.edit().putLong("PREF_TAG_TIMESTMAP10", System.currentTimeMillis()).commit();
+			//pref10.edit().clear().apply();
 		}
 		else if((Integer.parseInt(serviceData.substring(0,2), 16)>97 && Integer.parseInt(serviceData.substring(0,2), 16)<123))
 		{
 			mID = 20;
+			pref20.edit().putLong("PREF_TAG_TIMESTMAP20", System.currentTimeMillis()).commit();
+			//pref20.edit().clear().apply();
 		}
 		else
 		{
 			mID = 30;
+			pref30.edit().putLong("PREF_TAG_TIMESTMAP30", System.currentTimeMillis()).commit();
+			//pref30.edit().clear().apply();
 		}
+
+		//long ts10 = pref10.getLong("PREF_TAG_TIMESTMAP10", 0);
+		//ts10 = ts10 + 1;
+		//pref10.edit().putLong("PREF_TAG_TIMESTMAP10", ts10).commit();
+		//pref10.edit().clear().commit();
+		//Log.i(TAG, "ts10 :"+ (ts10) );
+
+
+		long ts10 = pref10.getLong("PREF_TAG_TIMESTMAP10", 0);
+		long ts20 = pref20.getLong("PREF_TAG_TIMESTMAP20", 0);
+		long ts30 = pref30.getLong("PREF_TAG_TIMESTMAP30", 0);
+		Log.i(TAG, "System.currentTimeMillis()-ts10 :"+ (System.currentTimeMillis()-ts10) );
+		if(System.currentTimeMillis()-ts10 > 1000*25){
+			Log.i(TAG, "Killing mID 10");
+			notificationManager.cancel(10);
+		}
+		Log.i(TAG, "System.currentTimeMillis()-ts20 :"+ (System.currentTimeMillis()-ts20) );
+		if(System.currentTimeMillis()-ts20 > 1000*25){
+			Log.i(TAG, "Killing mID 20");
+			notificationManager.cancel(20);
+		}
+		Log.i(TAG, "System.currentTimeMillis()-ts30 :"+ (System.currentTimeMillis()-ts30) );
+		if(System.currentTimeMillis()-ts30 > 1000*25){
+			Log.i(TAG, "Killing mID 30");
+			notificationManager.cancel(30);
+		}
+
 		String codebookValue = "0x"+serviceData.substring(2,4);
 		String typeValue = "0x"+Integer.toHexString(matchLows.getType());
 		String macData = matchLows.getBssid();
