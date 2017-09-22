@@ -93,8 +93,8 @@
       <file leaf-file-name="MobicomDemoCodebook.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/MobicomDemoCodebook.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="134">
-              <caret line="158" column="77" selection-start-line="158" selection-start-column="77" selection-end-line="158" selection-end-column="77" />
+            <state relative-caret-position="371">
+              <caret line="301" column="57" selection-start-line="301" selection-start-column="57" selection-end-line="301" selection-end-column="57" />
               <folding />
             </state>
           </provider>
@@ -103,7 +103,7 @@
       <file leaf-file-name="CISLoWSReducedType.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/CISLoWSReducedType.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
+            <state relative-caret-position="690">
               <caret line="91" column="9" selection-start-line="91" selection-start-column="9" selection-end-line="91" selection-end-column="9" />
               <folding />
             </state>
@@ -3003,7 +3003,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/CISLoWSReducedType.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
+        <state relative-caret-position="690">
           <caret line="91" column="9" selection-start-line="91" selection-start-column="9" selection-end-line="91" selection-end-column="9" />
           <folding />
         </state>
@@ -3011,8 +3011,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/lows/MobicomDemoCodebook.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="158" column="77" selection-start-line="158" selection-start-column="77" selection-end-line="158" selection-end-column="77" />
+        <state relative-caret-position="371">
+          <caret line="301" column="57" selection-start-line="301" selection-start-column="57" selection-end-line="301" selection-end-column="57" />
           <folding />
         </state>
       </provider>
