@@ -177,14 +177,14 @@ public class MobicomDemoCodebook extends PreinstalledCodebook {
 
         autoAddEntry("Ct1", "WEBee: Physical-Layer Cross-Technology Communication via Emulation\n" +
                 "Zhijun Li (University of Minnesota & Harbin Institute of Technology)\n" +
-                "Tian He (University of Minnesota)\n");
+                "Tian He (University of Minnesota)");
         autoAddEntry("Ct2", "Stateful Inter-Packet Signal Processing for Wireless Networking\n" +
                 "Shangqing Zhao (University of South Florida)\n" +
                 "Zhengping Luo (University of South Florida)\n" +
                 "Zhuo Lu (University of South Florida)\n" +
                 "Xiang Lu (Chinese Academy of Sciences & University of Chinese Academy of Sciences)\n" +
-                "Yao Liu (University of South Florida)\n");
-        autoAddEntry("Ct3", "WWiFi-Assisted 60 GHz Wireless Networks\t\n" +
+                "Yao Liu (University of South Florida)");
+        autoAddEntry("Ct3", "WiFi-Assisted 60 GHz Wireless Networks\t\n" +
                 "Sanjib Sur (University of Wisconsin-Madison & Hewlett Packard Labs)\n" +
                 "Ioannis Pefkianakis (Hewlett Packard Labs)\n" +
                 "Xinyu Zhang (University of California, San Diego)\n" +

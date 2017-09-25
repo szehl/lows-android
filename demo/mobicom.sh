@@ -302,7 +302,7 @@ execute_on_date "2017-10-18 10:59" "^CC3^^C}Z^"
 execute_on_date "2017-10-18 11:00" "^CX5^"
 
 #Lunch in 5min
-execute_on_date "2017-10-18 12:00" "^CX5^C[L^"
+execute_on_date "2017-10-18 12:00" "^CX5^^C[L^"
 
 #Lunch in 3min
 execute_on_date "2017-10-18 12:02" "^CX5^^C]L^"
@@ -469,7 +469,7 @@ execute_on_date "2017-10-19 11:29" "^CC5^^C}B^"
 execute_on_date "2017-10-19 11:30" "^CK2^"
 
 #Lunch in 5min
-execute_on_date "2017-10-19 12:15" "^CK2^C[L^"
+execute_on_date "2017-10-19 12:15" "^CK2^^C[L^"
 
 #Lunch in 3min
 execute_on_date "2017-10-19 12:17" "^CK2^^C]L^"
@@ -563,7 +563,7 @@ execute_on_date "2017-10-19 17:34" "^CS9^^CtZ^^C}i^"
 execute_on_date "2017-10-19 17:35" "^CX9^"
 
 #EOB
-execute_on_date "2017-10-18 17:40" "LoWS"
+execute_on_date "2017-10-19 17:40" "LoWS"
 
  
 
