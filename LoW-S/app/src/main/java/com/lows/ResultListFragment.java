@@ -126,7 +126,12 @@ public class ResultListFragment extends Fragment {
        // Commit the edits!
        editor.commit();
      }
-  
+
+
+
+
+
+
  	 
  	/**
  	 *  This function is executed when the fragment is loaded the first time.

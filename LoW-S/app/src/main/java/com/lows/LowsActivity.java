@@ -31,6 +31,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -94,7 +95,7 @@ public class LowsActivity extends Activity {
 	//Broadcast Receiver Object
 	WifiScanReceiver wifiReciever;
 	//debug Text
-	private String debugText;
+	private String debugText = "";
 	//not needed anymore?
 	private int gotRoot = 0;
 	int numberLows = 0;
@@ -135,17 +136,20 @@ public class LowsActivity extends Activity {
 		//Start the IEEE 802.11 scan via the Wifi System Service APO
 		mainWifiObj.startScan();
 
+		//Load preinstalled Codebooks
+		MobicomDemoCodebook mobicomCB = new MobicomDemoCodebook();
+		//addPreInstalledCodebooks(mobicomCB);
+		AddPreInstalledCBsBackground addpreCBsbackground = new AddPreInstalledCBsBackground();
+		addpreCBsbackground.execute(mobicomCB);
+
 		BackgroundScannerIntent = new Intent(this, LowsBackgroundAlarmScanner.class);
 
 		//We just set the title and set gotRoot to zero, We don't need root anymore!
 		setTitle("Location-based Wi-Fi Services");
 		gotRoot = 0;
-		debugText = debugText + "\n-Root check disabled";
+		//debugText = debugText + "\n-Root check disabled";
+		debugText = debugText + "\nWelcome to Mobicom 2017 and the Location-based Wi-Fi Services Demo\n";
 		addAllTypes();
-
-		//Load preinstalled Codebooks
-		MobicomDemoCodebook mobicomCB = new MobicomDemoCodebook();
-		addPreInstalledCodebooks(mobicomCB);
 
 		//Load the data stored in the Application persistent memory
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
@@ -176,6 +180,7 @@ public class LowsActivity extends Activity {
 			alarmMessagesData = bepsType.getBackgroundScannerDisplayStrings();
 		}
 		startChangeBackgroundScanService();
+
 		// ATTENTION: This was auto-generated to implement the App Indexing API.
 		// See https://g.co/AppIndexing/AndroidStudio for more information.
 		client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -1043,7 +1048,7 @@ public class LowsActivity extends Activity {
 	 */
 	public void startChangeBackgroundScanService() {
 		backgroundScannerStartedState = true;
-		debugText = debugText + "\n-startChangeBackgroundScanService() triggered...";
+		//debugText = debugText + "\n-startChangeBackgroundScanService() triggered...";
 		//Toast.makeText(getApplicationContext(), "LoWSActivity: startChangeBackgroundScanService()", Toast.LENGTH_SHORT).show();
 		if (BackgroundScannerPendingIntent != null) {
 			alarm.cancel(BackgroundScannerPendingIntent);
@@ -1124,6 +1129,127 @@ public class LowsActivity extends Activity {
 	}
 
 
+
+	private class AddPreInstalledCBsBackground extends AsyncTask<PreinstalledCodebook, Integer, Integer> {
+
+		protected Integer doInBackground(PreinstalledCodebook... precbs) {
+
+			for(int i=0; i < precbs.length ; i++) {
+				addPreInstalledCodebooks(precbs[i]);
+			}
+
+			// Führe Download im Hintergrund durch und
+			// melde Fortschritt mittels publishProgress(int)
+
+			return 0;
+		}
+
+		protected void onProgressUpdate(Integer... progress) {
+
+			// gebe aktuellen Fortschritt aus
+		}
+
+		protected void onPostExecute(Long result) {
+
+			// Task abgeschlossen, Ergebnis kann verwendet werden
+		}
+
+		private void addPreInstalledCodebooks(PreinstalledCodebook preCB) {
+			Log.i(TAG, "Started addPreInstalledCodebooks Function");
+			//parse json data
+
+			//JSONArray jArray = new JSONArray(result);
+			//toastString = "Received Codebook with size: "+jArray.length();
+			//mHandler.post(new Runnable() {
+			//	@Override
+			//		public void run() {
+			//			Toast.makeText(CodeBookUpdaterService.this, toastString, Toast.LENGTH_LONG).show();
+			//		}
+			//	});
+			//numberLows = 1;
+			Calendar c = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			String currentDate = sdf.format(c.getTime());
+			for (int i = 0; i < preCB.cb.size(); i++) {
+				//JSONObject json_data = jArray.getJSONObject(i);
+				//Log.i("log_tag","id: "+json_data.getInt("id")+
+				//				", mac: "+json_data.getString("access_point_mac")+
+				//				", service_type: "+json_data.getString("service_hexcode")+
+				//				", hardcoded_value: "+json_data.getString("lic")+
+				//				", codebook_value: "+json_data.getString("ldc")+
+				//				", data: "+json_data.getString("data")+
+				//				", version: "+json_data.getInt("version")
+				//);
+				PreInstalledCodebookEntry tempCBEntry = preCB.cb.get(i);
+				String tempMac = tempCBEntry.apMAC;
+				String tempServiceType = tempCBEntry.serviceType;
+				String tempHardcodeValue = tempCBEntry.hardcodeValue;
+				String tempCodebookValue = tempCBEntry.codebookValue;
+				String tempData = tempCBEntry.data;
+				int tempVersion = tempCBEntry.version;
+
+
+				Cursor cursor = getContentResolver().query(
+						MyCodeBookContentProvider.CONTENT_URI,
+						null,
+						"mac LIKE '" + tempMac + "' AND servicetype LIKE '"
+								+ tempServiceType + "' AND hardcodedvalue LIKE '"
+								+ tempHardcodeValue + "' AND codebookvalue LIKE '"
+								+ tempCodebookValue + "'", null, null);
+				if (cursor != null) {
+					//Log.i(TAG, "Database Cursor is not null");
+					if (cursor.getCount() > 0) {
+						//Log.i(TAG, "Database cursor.getCount() > 0");
+						//update or do nothing
+						cursor.moveToFirst();
+						//String dataValue = cursor.getString(cursor.getColumnIndexOrThrow(CodeBookTable.COLUMN_DATA));
+						//int versionCompare = cursor.getInt(cursor.getColumnIndexOrThrow(CodeBookTable.COLUMN_VERSION));
+						//if (tempVersion == versionCompare) {
+						//	Log.i(TAG, "tempVersion==versionCompare, do nothing the data is still the same");
+						//do nothing the data is still the same
+						//} else {
+						//Log.i(TAG, "update this entry, the data has changed");
+						//update this entry, the data has changed
+						ContentValues values = new ContentValues();
+						values.put(CodeBookTable.COLUMN_MAC, tempMac);
+						values.put(CodeBookTable.COLUMN_SERVICE_TYPE, tempServiceType);
+						values.put(CodeBookTable.COLUMN_HARDCODED_VALUE, tempHardcodeValue);
+						values.put(CodeBookTable.COLUMN_CODEBOOK_VALUE, tempCodebookValue);
+						values.put(CodeBookTable.COLUMN_DATA, tempData);
+						values.put(CodeBookTable.COLUMN_LASTCHANGED, currentDate);
+						values.put(CodeBookTable.COLUMN_VERSION, tempVersion);
+						getContentResolver().update(MyCodeBookContentProvider.CONTENT_URI, values,
+								"mac LIKE '" + tempMac + "' AND servicetype LIKE '"
+										+ tempServiceType + "' AND hardcodedvalue LIKE '"
+										+ tempHardcodeValue + "' AND codebookvalue LIKE '"
+										+ tempCodebookValue + "'", null);
+						//}
+					} else {
+						//add new entry
+						Log.i(TAG, "Adding new entry into Codebook Database");
+						ContentValues values = new ContentValues();
+						values.put(CodeBookTable.COLUMN_MAC, tempMac);
+						values.put(CodeBookTable.COLUMN_SERVICE_TYPE, tempServiceType);
+						values.put(CodeBookTable.COLUMN_HARDCODED_VALUE, tempHardcodeValue);
+						values.put(CodeBookTable.COLUMN_CODEBOOK_VALUE, tempCodebookValue);
+						values.put(CodeBookTable.COLUMN_DATA, tempData);
+						values.put(CodeBookTable.COLUMN_LASTCHANGED, currentDate);
+						values.put(CodeBookTable.COLUMN_VERSION, tempVersion);
+						Uri savedUri = getContentResolver().insert(MyCodeBookContentProvider.CONTENT_URI, values);
+					}
+				} // always close the cursor
+				else {
+					//Log.i(TAG, "Database Cursor is null...");
+				}
+				cursor.close();
+
+
+			}
+
+
+		}
+	}
+
 	private void addPreInstalledCodebooks(PreinstalledCodebook preCB) {
 		Log.i(TAG, "Started addPreInstalledCodebooks Function");
 		//parse json data
@@ -1137,6 +1263,9 @@ public class LowsActivity extends Activity {
 		//		}
 		//	});
 		//numberLows = 1;
+		Calendar c = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		String currentDate = sdf.format(c.getTime());
 		for (int i = 0; i < preCB.cb.size(); i++) {
 			//JSONObject json_data = jArray.getJSONObject(i);
 			//Log.i("log_tag","id: "+json_data.getInt("id")+
@@ -1154,9 +1283,7 @@ public class LowsActivity extends Activity {
 			String tempCodebookValue = tempCBEntry.codebookValue;
 			String tempData = tempCBEntry.data;
 			int tempVersion = tempCBEntry.version;
-			Calendar c = Calendar.getInstance();
-			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-			String currentDate = sdf.format(c.getTime());
+
 
 			Cursor cursor = getContentResolver().query(
 					MyCodeBookContentProvider.CONTENT_URI,
@@ -1172,12 +1299,12 @@ public class LowsActivity extends Activity {
 					//update or do nothing
 					cursor.moveToFirst();
 					//String dataValue = cursor.getString(cursor.getColumnIndexOrThrow(CodeBookTable.COLUMN_DATA));
-					int versionCompare = cursor.getInt(cursor.getColumnIndexOrThrow(CodeBookTable.COLUMN_VERSION));
-					if (tempVersion == versionCompare) {
-						Log.i(TAG, "tempVersion==versionCompare, do nothing the data is still the same");
+					//int versionCompare = cursor.getInt(cursor.getColumnIndexOrThrow(CodeBookTable.COLUMN_VERSION));
+					//if (tempVersion == versionCompare) {
+					//	Log.i(TAG, "tempVersion==versionCompare, do nothing the data is still the same");
 						//do nothing the data is still the same
-					} else {
-						Log.i(TAG, "tempVersion!=versionCompare, update this entry, the data has changed");
+					//} else {
+						Log.i(TAG, "update this entry, the data has changed");
 						//update this entry, the data has changed
 						ContentValues values = new ContentValues();
 						values.put(CodeBookTable.COLUMN_MAC, tempMac);
@@ -1192,7 +1319,7 @@ public class LowsActivity extends Activity {
 										+ tempServiceType + "' AND hardcodedvalue LIKE '"
 										+ tempHardcodeValue + "' AND codebookvalue LIKE '"
 										+ tempCodebookValue + "'", null);
-					}
+					//}
 				} else {
 					//add new entry
 					Log.i(TAG, "Adding new entry into Codebook Database");
