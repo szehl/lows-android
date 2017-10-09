@@ -1076,7 +1076,7 @@ public class LowsActivity extends Activity {
 
 		if (Build.VERSION.SDK_INT >= 23) {
 			alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), BackgroundScannerPendingIntent);
-		} else if (Build.VERSION.SDK_INT >= 19) {
+		} else if (Build.VERSION.SDK_INT > 19) {
 			alarm.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), BackgroundScannerPendingIntent);
 		} else {
 			alarm.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), BackgroundScannerPendingIntent);

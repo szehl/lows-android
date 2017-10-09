@@ -161,9 +161,10 @@ public class LowsBackgroundAlarmScanner extends IntentService {
 		//	alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis() + backgroundScannerInterval * 1000, BackgroundScannerPendingIntent);
 			//alarm.setExact(AlarmManager.RTC_WAKEUP, backgroundScannerInterval * 1000, intent);
 		//}
+		Log.i(TAG, "Build Version: "+Build.VERSION.SDK_INT);
 		if (Build.VERSION.SDK_INT >= 23) {
 			alarm.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis()+ backgroundScannerInterval * 1000, BackgroundScannerPendingIntent);
-		} else if (Build.VERSION.SDK_INT >= 19) {
+		} else if (Build.VERSION.SDK_INT > 19) {
 			alarm.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis()+ backgroundScannerInterval * 1000, BackgroundScannerPendingIntent);
 		} else {
 			alarm.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis()+ backgroundScannerInterval * 1000, BackgroundScannerPendingIntent);
