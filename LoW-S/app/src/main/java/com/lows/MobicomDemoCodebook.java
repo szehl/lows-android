@@ -150,30 +150,30 @@ public class MobicomDemoCodebook extends PreinstalledCodebook {
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //Mobicom Registration and Breakfast, 07:30 - 08:40
 
-        autoAddEntry("CR1", "Mobicom Registration and Breakfast, 07:30 - 08:40");
+        autoAddEntry("CR1", "Mobicom Registration and Breakfast, 07:30 - 08:40, Golden Cliff");
         autoAddEntry("C[W", "Welcome & Awards, 08:40 - 09:05");
         autoAddEntry("C]W", "Welcome & Awards, 08:40 - 09:05");
         autoAddEntry("C}W", "Welcome & Awards, 08:40 - 09:05");
         autoAddEntry("CXW", "Welcome & Awards, 08:40 - 09:05");
 
         autoAddEntry("C[K", "Keynote Talk 1: Making Roads Safer by Making Drivers Better\n" +
-                "Hari Balakrishnan (M.I.T. and Cambridge Mobile Telematics) ,  09:05 - 09:55");
+                "Hari Balakrishnan (M.I.T. and Cambridge Mobile Telematics) ,  09:05 - 09:55, Ballroom");
         autoAddEntry("C]K", "Keynote Talk 1: Making Roads Safer by Making Drivers Better\n" +
-                "Hari Balakrishnan (M.I.T. and Cambridge Mobile Telematics) ,  09:05 - 09:55");
+                "Hari Balakrishnan (M.I.T. and Cambridge Mobile Telematics) ,  09:05 - 09:55, Ballroom");
         autoAddEntry("C}K", "Keynote Talk 1: Making Roads Safer by Making Drivers Better\n" +
-                "Hari Balakrishnan (M.I.T. and Cambridge Mobile Telematics) ,  09:05 - 09:55");
+                "Hari Balakrishnan (M.I.T. and Cambridge Mobile Telematics) ,  09:05 - 09:55, Ballroom");
         autoAddEntry("CK1", "Keynote Talk 1: Making Roads Safer by Making Drivers Better\n" +
-                "Hari Balakrishnan (M.I.T. and Cambridge Mobile Telematics) ,  09:05 - 09:55");
+                "Hari Balakrishnan (M.I.T. and Cambridge Mobile Telematics) ,  09:05 - 09:55, Ballroom");
 
         autoAddEntry("C[C", "Coffee Break");
         autoAddEntry("C]C", "Coffee Break");
         autoAddEntry("C}C", "Coffee Break");
         autoAddEntry("CC1", "Coffee Break 09:55 - 10:20");
 
-        autoAddEntry("C[S", "Paper session I: Wireless High Jinks  10:20 - 11:40, Session Chair: Dimitrios Koutsonikolas");
-        autoAddEntry("C]S", "Paper session I: Wireless High Jinks  10:20 - 11:40, Session Chair: Dimitrios Koutsonikolas");
-        autoAddEntry("C}S", "Paper session I: Wireless High Jinks  10:20 - 11:40, Session Chair: Dimitrios Koutsonikolas");
-        autoAddEntry("CS1", "Paper session I: Wireless High Jinks  10:20 - 11:40, Session Chair: Dimitrios Koutsonikolas");
+        autoAddEntry("C[S", "Paper session I: Wireless High Jinks  10:20 - 11:40, Ballroom, Session Chair: Dimitrios Koutsonikolas");
+        autoAddEntry("C]S", "Paper session I: Wireless High Jinks  10:20 - 11:40, Ballroom, Session Chair: Dimitrios Koutsonikolas");
+        autoAddEntry("C}S", "Paper session I: Wireless High Jinks  10:20 - 11:40, Ballroom, Session Chair: Dimitrios Koutsonikolas");
+        autoAddEntry("CS1", "Paper session I: Wireless High Jinks  10:20 - 11:40, Ballroom, Session Chair: Dimitrios Koutsonikolas");
 
         autoAddEntry("Ct1", "WEBee: Physical-Layer Cross-Technology Communication via Emulation\n" +
                 "Zhijun Li (University of Minnesota & Harbin Institute of Technology)\n" +
@@ -196,17 +196,17 @@ public class MobicomDemoCodebook extends PreinstalledCodebook {
         autoAddEntry("C[L", "Lunch");
         autoAddEntry("C]L", "Lunch");
         autoAddEntry("C}L", "Lunch");
-        autoAddEntry("CL1", "Lunch 11:40 - 13:10");
+        autoAddEntry("CL1", "Lunch, 11:40 - 13:10, Golden Cliff");
 
         autoAddEntry("C[N", "N2Women Event 12:00 - 13:00");
         autoAddEntry("C]N", "N2Women Event 12:00 - 13:00");
         autoAddEntry("C}N", "N2Women Event 12:00 - 13:00");
         autoAddEntry("CXN", "N2Women Event 12:00 - 13:00 / Lunch 11:40 - 13:10");
 
-        autoAddEntry("C[T", "Paper session II: Can You Hear Me Now? 13:10 - 14:30, Session Chair: Charlie Hu");
-        autoAddEntry("C]T", "Paper session II: Can You Hear Me Now? 13:10 - 14:30, Session Chair: Charlie Hu");
-        autoAddEntry("C}T", "Paper session II: Can You Hear Me Now? 13:10 - 14:30, Session Chair: Charlie Hu");
-        autoAddEntry("CS2", "Paper session II: Can You Hear Me Now? 13:10 - 14:30, Session Chair: Charlie Hu");
+        autoAddEntry("C[T", "Paper session II: Can You Hear Me Now? 13:10 - 14:30, Ballroom, Session Chair: Charlie Hu");
+        autoAddEntry("C]T", "Paper session II: Can You Hear Me Now? 13:10 - 14:30, Ballroom, Session Chair: Charlie Hu");
+        autoAddEntry("C}T", "Paper session II: Can You Hear Me Now? 13:10 - 14:30, Ballroom, Session Chair: Charlie Hu");
+        autoAddEntry("CS2", "Paper session II: Can You Hear Me Now? 13:10 - 14:30, Ballroom, Session Chair: Charlie Hu");
 
         autoAddEntry("Ct5", "A Control-Plane Perspective on Reducing Data Access Latency in LTE Networks\n" +
                 "Yuanjie Li (University of California, Los Angeles)\n" +
@@ -240,10 +240,10 @@ public class MobicomDemoCodebook extends PreinstalledCodebook {
 
         autoAddEntry("CC2", "Coffee Break 14:30 - 14:55");
 
-        autoAddEntry("C[U", "Paper session III: Invisible Cobwebs 14:55 - 16:35, Session Chair: Xinyu Zhang");
-        autoAddEntry("C]U", "Paper session III: Invisible Cobwebs 14:55 - 16:35, Session Chair: Xinyu Zhang");
-        autoAddEntry("C}U", "Paper session III: Invisible Cobwebs 14:55 - 16:35, Session Chair: Xinyu Zhang");
-        autoAddEntry("CS3", "Paper session III: Invisible Cobwebs 14:55 - 16:35, Session Chair: Xinyu Zhang");
+        autoAddEntry("C[U", "Paper session III: Invisible Cobwebs 14:55 - 16:35, Ballroom, Session Chair: Xinyu Zhang");
+        autoAddEntry("C]U", "Paper session III: Invisible Cobwebs 14:55 - 16:35, Ballroom, Session Chair: Xinyu Zhang");
+        autoAddEntry("C}U", "Paper session III: Invisible Cobwebs 14:55 - 16:35, Ballroom, Session Chair: Xinyu Zhang");
+        autoAddEntry("CS3", "Paper session III: Invisible Cobwebs 14:55 - 16:35, Ballroom, Session Chair: Xinyu Zhang");
 
         autoAddEntry("Ct9", "The Tick Programmable Low-Latency SDR System\n" +
                 "Haoyang Wu (Peking University)\n" +
@@ -286,31 +286,31 @@ public class MobicomDemoCodebook extends PreinstalledCodebook {
                 "Samir R Das (Stony Brook University)\n" +
                 "Thanvir Mohamed (Stony Brook University) \n - \nFull Paper: https://dl.acm.org/citation.cfm?id=3129239\nShort Video: https://www.youtube.com/watch?v=VK79wjZB9m8");
 
-        autoAddEntry("C[A", "App Contest 16:35-17:35");
-        autoAddEntry("C]A", "App Contest 16:35-17:35");
-        autoAddEntry("C}A", "App Contest 16:35-17:35");
-        autoAddEntry("CX2", "App Contest 16:35-17:35");
+        autoAddEntry("C[A", "App Contest 16:35-17:35, Ballroom");
+        autoAddEntry("C]A", "App Contest 16:35-17:35, Ballroom");
+        autoAddEntry("C}A", "App Contest 16:35-17:35, Ballroom");
+        autoAddEntry("CX2", "App Contest 16:35-17:35, Ballroom");
 
-        autoAddEntry("C[D", "Demo/poster session and Student Research Competition (SRC) with reception 17:35 - 19:15");
-        autoAddEntry("C]D", "Demo/poster session and Student Research Competition (SRC) with reception 17:35 - 19:15");
-        autoAddEntry("C}D", "Demo/poster session and Student Research Competition (SRC) with reception 17:35 - 19:15");
-        autoAddEntry("CD1", "Demo/poster session and Student Research Competition (SRC) with reception 17:35 - 19:15");
+        autoAddEntry("C[D", "Demo/poster session and Student Research Competition (SRC) with reception, Primrose, 17:35 - 19:15");
+        autoAddEntry("C]D", "Demo/poster session and Student Research Competition (SRC) with reception, Primrose, 17:35 - 19:15");
+        autoAddEntry("C}D", "Demo/poster session and Student Research Competition (SRC) with reception, Primrose, 17:35 - 19:15");
+        autoAddEntry("CD1", "Demo/poster session and Student Research Competition (SRC) with reception, Primrose, 17:35 - 19:15");
 
-        autoAddEntry("C[J", "MobiJob dinner 19:20 - 21:20");
-        autoAddEntry("C]J", "MobiJob dinner 19:20 - 21:20");
-        autoAddEntry("C}J", "MobiJob dinner 19:20 - 21:20");
-        autoAddEntry("CX3", "MobiJob dinner 19:20 - 21:20");
+        autoAddEntry("C[J", "MobiJob dinner 19:20 - 21:20, Superior");
+        autoAddEntry("C]J", "MobiJob dinner 19:20 - 21:20, Superior");
+        autoAddEntry("C}J", "MobiJob dinner 19:20 - 21:20, Superior");
+        autoAddEntry("CX3", "MobiJob dinner 19:20 - 21:20, Superior");
 
 
 
         ///Zweiter Tag 18.10.17
 
-        autoAddEntry("CR2", "Mobicom Registration and Breakfast, 07:30 - 08:45");
+        autoAddEntry("CR2", "Mobicom Registration and Breakfast, 07:30 - 08:45, Golden Cliff");
 
-        autoAddEntry("C[V", "Paper session IV: Aurora Borealis 08:45 - 09:45, Session Chair: Chunyi Peng");
-        autoAddEntry("C]V", "Paper session IV: Aurora Borealis 08:45 - 09:45, Session Chair: Chunyi Peng");
-        autoAddEntry("C}V", "Paper session IV: Aurora Borealis 08:45 - 09:45, Session Chair: Chunyi Peng");
-        autoAddEntry("CS4", "Paper session IV: Aurora Borealis 08:45 - 09:45, Session Chair: Chunyi Peng");
+        autoAddEntry("C[V", "Paper session IV: Aurora Borealis 08:45 - 09:45, Ballroom, Session Chair: Chunyi Peng");
+        autoAddEntry("C]V", "Paper session IV: Aurora Borealis 08:45 - 09:45, Ballroom, Session Chair: Chunyi Peng");
+        autoAddEntry("C}V", "Paper session IV: Aurora Borealis 08:45 - 09:45, Ballroom, Session Chair: Chunyi Peng");
+        autoAddEntry("CS4", "Paper session IV: Aurora Borealis 08:45 - 09:45, Ballroom, Session Chair: Chunyi Peng");
 
         autoAddEntry("CtE", "MagneComm: Magnetometer-based Near-Field Communication\n" +
                 "Hao Pan (Shanghai Jiao Tong University)\n" +
@@ -333,27 +333,27 @@ public class MobicomDemoCodebook extends PreinstalledCodebook {
                 "Jun Luo (Nanyang Technological University) \n - \nFull Paper: https://dl.acm.org/citation.cfm?id=3117836\nShort Video: https://www.youtube.com/watch?v=2eJ5jgz5Mv4");
 
         autoAddEntry("C[R", "Rock star presentation:\n" +
-                "Shyam Gollakota (University of Washington): 09:45 - 10:35");
+                "Shyam Gollakota (University of Washington): 09:45 - 10:35, Ballroom");
         autoAddEntry("C]R", "Rock star presentation:\n" +
-                "Shyam Gollakota (University of Washington): 09:45 - 10:35");
+                "Shyam Gollakota (University of Washington): 09:45 - 10:35, Ballroom");
         autoAddEntry("C}R", "Rock star presentation:\n" +
-                "Shyam Gollakota (University of Washington): 09:45 - 10:35");
+                "Shyam Gollakota (University of Washington): 09:45 - 10:35, Ballroom");
         autoAddEntry("CX4", "Rock star presentation:\n" +
-                "Shyam Gollakota (University of Washington): 09:45 - 10:35");
+                "Shyam Gollakota (University of Washington): 09:45 - 10:35, Ballroom");
 
         autoAddEntry("CC3", "Coffee Break 10:35 - 11:00");
 
-        autoAddEntry("C[Z", "Second round of SRC  (65 min) 11:00 - 12:05");
-        autoAddEntry("C]Z", "Second round of SRC  (65 min) 11:00 - 12:05");
-        autoAddEntry("C}Z", "Second round of SRC  (65 min) 11:00 - 12:05");
-        autoAddEntry("CX5", "Second round of SRC  (65 min) 11:00 - 12:05");
+        autoAddEntry("C[Z", "Second round of SRC  (65 min) 11:00 - 12:05, Ballroom");
+        autoAddEntry("C]Z", "Second round of SRC  (65 min) 11:00 - 12:05, Ballroom");
+        autoAddEntry("C}Z", "Second round of SRC  (65 min) 11:00 - 12:05, Ballroom");
+        autoAddEntry("CX5", "Second round of SRC  (65 min) 11:00 - 12:05, Ballroom");
 
-        autoAddEntry("CL2", "Lunch 12:05 - 13:35");
+        autoAddEntry("CL2", "Lunch 12:05 - 13:35, Golden Cliff");
 
-        autoAddEntry("C[a", "Paper session V: Location! Location! Location!  13:35 - 14:55, Session Chair: Jie Xiong");
-        autoAddEntry("C]a", "Paper session V: Location! Location! Location!  13:35 - 14:55, Session Chair: Jie Xiong");
-        autoAddEntry("C}a", "Paper session V: Location! Location! Location!  13:35 - 14:55, Session Chair: Jie Xiong");
-        autoAddEntry("CS5", "Paper session V: Location! Location! Location!  13:35 - 14:55, Session Chair: Jie Xiong");
+        autoAddEntry("C[a", "Paper session V: Location! Location! Location!  13:35 - 14:55, Ballroom, Session Chair: Jie Xiong");
+        autoAddEntry("C]a", "Paper session V: Location! Location! Location!  13:35 - 14:55, Ballroom, Session Chair: Jie Xiong");
+        autoAddEntry("C}a", "Paper session V: Location! Location! Location!  13:35 - 14:55, Ballroom, Session Chair: Jie Xiong");
+        autoAddEntry("CS5", "Paper session V: Location! Location! Location!  13:35 - 14:55, Ballroom, Session Chair: Jie Xiong");
 
         autoAddEntry("CtH", "Pulsar: Towards Ubiquitous Visible Light Localization\n" +
                 "Chi Zhang (University of Wisconsin-Madison)\n" +
@@ -388,10 +388,10 @@ public class MobicomDemoCodebook extends PreinstalledCodebook {
         autoAddEntry("CXT", "Test of Time Award: Guiseppe Bianchi, 15:15 - 15:30");
 
 
-        autoAddEntry("C[b", "Paper session VI: Tag, You’re It! 15:30 - 16:50, Session Chair: Fadel Adib");
-        autoAddEntry("C]b", "Paper session VI: Tag, You’re It! 15:30 - 16:50, Session Chair: Fadel Adib");
-        autoAddEntry("C}b", "Paper session VI: Tag, You’re It! 15:30 - 16:50, Session Chair: Fadel Adib");
-        autoAddEntry("CS6", "Paper session VI: Tag, You’re It! 15:30 - 16:50, Session Chair: Fadel Adib");
+        autoAddEntry("C[b", "Paper session VI: Tag, You’re It! 15:30 - 16:50, Ballroom, Session Chair: Fadel Adib");
+        autoAddEntry("C]b", "Paper session VI: Tag, You’re It! 15:30 - 16:50, Ballroom, Session Chair: Fadel Adib");
+        autoAddEntry("C}b", "Paper session VI: Tag, You’re It! 15:30 - 16:50, Ballroom, Session Chair: Fadel Adib");
+        autoAddEntry("CS6", "Paper session VI: Tag, You’re It! 15:30 - 16:50, Ballroom, Session Chair: Fadel Adib");
 
         autoAddEntry("CtL", "RIO: A Pervasive RFID-based Touch Gesture Interface\n" +
                 "Swadhin Pradhan (University of Texas at Austin)\n" +
@@ -432,15 +432,15 @@ public class MobicomDemoCodebook extends PreinstalledCodebook {
 
         //Day 3
 
-        autoAddEntry("C[d", "SIGMobile business meeting 08:45 - 09:45");
-        autoAddEntry("C]d", "SIGMobile business meeting 08:45 - 09:45");
-        autoAddEntry("C}d", "SIGMobile business meeting 08:45 - 09:45");
-        autoAddEntry("CX8", "SIGMobile business meeting 08:45 - 09:45");
+        autoAddEntry("C[d", "SIGMobile business meeting, Ballroom, 08:45 - 09:45");
+        autoAddEntry("C]d", "SIGMobile business meeting, Ballroom, 08:45 - 09:45");
+        autoAddEntry("C}d", "SIGMobile business meeting, Ballroom, 08:45 - 09:45");
+        autoAddEntry("CX8", "SIGMobile business meeting, Ballroom, 08:45 - 09:45");
 
-        autoAddEntry("C[e", "Paper session VII: Leaks, Plugs, Alice and Bob 09:45 - 11:05, Session Chair: He Wang");
-        autoAddEntry("C]e", "Paper session VII: Leaks, Plugs, Alice and Bob 09:45 - 11:05, Session Chair: He Wang");
-        autoAddEntry("C}e", "Paper session VII: Leaks, Plugs, Alice and Bob 09:45 - 11:05, Session Chair: He Wang");
-        autoAddEntry("CS7", "Paper session VII: Leaks, Plugs, Alice and Bob 09:45 - 11:05, Session Chair: He Wang");
+        autoAddEntry("C[e", "Paper session VII: Leaks, Plugs, Alice and Bob 09:45 - 11:05, Ballroom, Session Chair: He Wang");
+        autoAddEntry("C]e", "Paper session VII: Leaks, Plugs, Alice and Bob 09:45 - 11:05, Ballroom, Session Chair: He Wang");
+        autoAddEntry("C}e", "Paper session VII: Leaks, Plugs, Alice and Bob 09:45 - 11:05, Ballroom, Session Chair: He Wang");
+        autoAddEntry("CS7", "Paper session VII: Leaks, Plugs, Alice and Bob 09:45 - 11:05, Ballroom, Session Chair: He Wang");
 
         autoAddEntry("CtP", "Cardiac Scan: A Non-contact and Continuous Heart-based User Authentication System\n" +
                 "Feng Lin (University at Buffalo (SUNY))\n" +
@@ -468,20 +468,20 @@ public class MobicomDemoCodebook extends PreinstalledCodebook {
         autoAddEntry("CC5", "Coffee Break 11:05 - 11:30");
 
         autoAddEntry("C[B", "Keynote Talk 2: Spurring Mobile Systems Research Into The Next Decade\n" +
-                "Thyagarajan Nandagopal (National Science Foundation) 11:30 - 12:20");
+                "Thyagarajan Nandagopal (National Science Foundation) 11:30 - 12:20, Ballroom");
         autoAddEntry("C]B", "MKeynote Talk 2: Spurring Mobile Systems Research Into The Next Decade\n" +
-                "Thyagarajan Nandagopal (National Science Foundation) 11:30 - 12:20");
+                "Thyagarajan Nandagopal (National Science Foundation) 11:30 - 12:20, Ballroom");
         autoAddEntry("C}B", "Keynote Talk 2: Spurring Mobile Systems Research Into The Next Decade\n" +
-                "Thyagarajan Nandagopal (National Science Foundation) 11:30 - 12:20");
+                "Thyagarajan Nandagopal (National Science Foundation) 11:30 - 12:20, Ballroom");
         autoAddEntry("CK2", "Keynote Talk 2: Spurring Mobile Systems Research Into The Next Decade\n" +
-                "Thyagarajan Nandagopal (National Science Foundation) 11:30 - 12:20");
+                "Thyagarajan Nandagopal (National Science Foundation) 11:30 - 12:20, Ballroom");
 
-        autoAddEntry("CL3", "Lunch  12:20 - 13:50");
+        autoAddEntry("CL3", "Lunch  12:20 - 13:50, Golden Cliff");
 
-        autoAddEntry("C[f", "Paper session VIII: Frameworks and Such 13:50 - 15:10, Session Chair: Robin Kravets");
-        autoAddEntry("C]f", "Paper session VIII: Frameworks and Such 13:50 - 15:10, Session Chair: Robin Kravets");
-        autoAddEntry("C}f", "Paper session VIII: Frameworks and Such 13:50 - 15:10, Session Chair: Robin Kravets");
-        autoAddEntry("CS8", "Paper session VIII: Frameworks and Such 13:50 - 15:10, Session Chair: Robin Kravets");
+        autoAddEntry("C[f", "Paper session VIII: Frameworks and Such 13:50 - 15:10, Ballroom, Session Chair: Robin Kravets");
+        autoAddEntry("C]f", "Paper session VIII: Frameworks and Such 13:50 - 15:10, Ballroom, Session Chair: Robin Kravets");
+        autoAddEntry("C}f", "Paper session VIII: Frameworks and Such 13:50 - 15:10, Ballroom, Session Chair: Robin Kravets");
+        autoAddEntry("CS8", "Paper session VIII: Frameworks and Such 13:50 - 15:10, Ballroom, Session Chair: Robin Kravets");
 
         autoAddEntry("CtT", "UIWear: Easily Adapting User Interfaces for Wearable Devices\n" +
                 "Jian Xu (Stony Brook University)\n" +
@@ -512,20 +512,20 @@ public class MobicomDemoCodebook extends PreinstalledCodebook {
                 "Ningwei Dai (Tsinghua University) \n - \nFull Paper: https://dl.acm.org/citation.cfm?id=3117815\nShort Video: https://www.youtube.com/watch?v=MX0e2hhfdmw");
 
         autoAddEntry("C[g", "Panel session\n" + "What everyone ought to know about the Macro Trends in Wireless Research and Experimentation\n" +"Moderator: Abhimanyu Gosain (PAWR Project Office)\n" +
-                "Panelists: Ali Khayrallah (Ericsson Research), Ravi Marawar (National Instruments), Rebecca Hunter (Crown Castle), 15:10 - 16:10");
+                "Panelists: Ali Khayrallah (Ericsson Research), Ravi Marawar (National Instruments), Rebecca Hunter (Crown Castle), 15:10 - 16:10, Ballroom");
         autoAddEntry("C]g", "Panel session\n" + "What everyone ought to know about the Macro Trends in Wireless Research and Experimentation\n" +"Moderator: Abhimanyu Gosain (PAWR Project Office)\n" +
-                "Panelists: Ali Khayrallah (Ericsson Research), Ravi Marawar (National Instruments), Rebecca Hunter (Crown Castle), 15:10 - 16:10");
+                "Panelists: Ali Khayrallah (Ericsson Research), Ravi Marawar (National Instruments), Rebecca Hunter (Crown Castle), 15:10 - 16:10, Ballroom");
         autoAddEntry("C}g", "Panel session\n" + "What everyone ought to know about the Macro Trends in Wireless Research and Experimentation\n" +"Moderator: Abhimanyu Gosain (PAWR Project Office)\n" +
-                "Panelists: Ali Khayrallah (Ericsson Research), Ravi Marawar (National Instruments), Rebecca Hunter (Crown Castle), 15:10 - 16:10");
+                "Panelists: Ali Khayrallah (Ericsson Research), Ravi Marawar (National Instruments), Rebecca Hunter (Crown Castle), 15:10 - 16:10, Ballroom");
         autoAddEntry("CP1", "Panel session\n" + "What everyone ought to know about the Macro Trends in Wireless Research and Experimentation\n" +"Moderator: Abhimanyu Gosain (PAWR Project Office)\n" +
-                "Panelists: Ali Khayrallah (Ericsson Research), Ravi Marawar (National Instruments), Rebecca Hunter (Crown Castle), 15:10 - 16:10");
+                "Panelists: Ali Khayrallah (Ericsson Research), Ravi Marawar (National Instruments), Rebecca Hunter (Crown Castle), 15:10 - 16:10, Ballroom");
 
         autoAddEntry("CC6", "Coffee Break 16:10 - 16:35");
 
-        autoAddEntry("C[h", "Paper session IX: Better, Faster Apps and Web  16:35 - 17:35, Session Chair: Aruna Balasubramaniam");
-        autoAddEntry("C]h", "Paper session IX: Better, Faster Apps and Web  16:35 - 17:35, Session Chair: Aruna Balasubramaniam");
-        autoAddEntry("C}h", "Paper session IX: Better, Faster Apps and Web  16:35 - 17:35, Session Chair: Aruna Balasubramaniam");
-        autoAddEntry("CS9", "Paper session IX: Better, Faster Apps and Web  16:35 - 17:35, Session Chair: Aruna Balasubramaniam");
+        autoAddEntry("C[h", "Paper session IX: Better, Faster Apps and Web  16:35 - 17:35, Ballroom, Session Chair: Aruna Balasubramaniam");
+        autoAddEntry("C]h", "Paper session IX: Better, Faster Apps and Web  16:35 - 17:35, Ballroom, Session Chair: Aruna Balasubramaniam");
+        autoAddEntry("C}h", "Paper session IX: Better, Faster Apps and Web  16:35 - 17:35, Ballroom, Session Chair: Aruna Balasubramaniam");
+        autoAddEntry("CS9", "Paper session IX: Better, Faster Apps and Web  16:35 - 17:35, Ballroom, Session Chair: Aruna Balasubramaniam");
 
         autoAddEntry("CtX", "RAVEN : Perception-aware Optimization of Power Consumption for Mobile Games\n" +
                 "Chanyou Hwang (Korea Advanced Institute of Science and Technology)\n" +
@@ -553,10 +553,10 @@ public class MobicomDemoCodebook extends PreinstalledCodebook {
                 "Mithuna Thottethodi (Purdue University)\n" +
                 "T.N. Vijaykumar (Purdue University) \n - \nFull Paper: https://dl.acm.org/citation.cfm?id=3117827\nShort Video: https://www.youtube.com/watch?v=BtYNuoFQmyI");
 
-        autoAddEntry("C[i", "Closing remarks 17:35 - 17:40");
-        autoAddEntry("C]i", "Closing remarks 17:35 - 17:40");
-        autoAddEntry("C}i", "Closing remarks 17:35 - 17:40");
-        autoAddEntry("CX9", "Closing remarks 17:35 - 17:40");
+        autoAddEntry("C[i", "Closing remarks 17:35 - 17:40, Ballroom");
+        autoAddEntry("C]i", "Closing remarks 17:35 - 17:40, Ballroom");
+        autoAddEntry("C}i", "Closing remarks 17:35 - 17:40, Ballroom");
+        autoAddEntry("CX9", "Closing remarks 17:35 - 17:40, Ballroom");
 
     }
 }
