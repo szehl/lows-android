@@ -1027,8 +1027,14 @@ public class LowsBackgroundAlarmScanner extends IntentService {
 		cursor.close();
 
 		//End database
+		//Remove Links if present
+		String linkDetector = "\n - \n";
+		if(dataValue.toLowerCase().contains(linkDetector.toLowerCase())) {
+			String[] parts = dataValue.split(linkDetector);
+			dataValue = parts[0];
+		}
 
-
+		//dataValue =
 
 
 		//int mID=2;

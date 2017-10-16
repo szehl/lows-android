@@ -73,7 +73,7 @@ execute_on_date "2017-10-17 09:52" "^CK1^^C]C^"
 #Break in 1min
 execute_on_date "2017-10-17 09:54" "^CK1^^C}C^"
 
-#Break 09:05 - 09:55
+#Break   09:55 - 10:20
 execute_on_date "2017-10-17 09:55" "^CC1^"
 
 #1st Session in 5min
@@ -170,7 +170,7 @@ execute_on_date "2017-10-17 14:50" "^CC2^^C[U^"
 #Session 3 in 3min
 execute_on_date "2017-10-17 14:52" "^CC2^^C]U^"
 
-#Session 2 in 1min
+#Session 3 in 1min
 execute_on_date "2017-10-17 14:54" "^CC2^^C}U^"
 
 #Paper session II: Paper session III: Invisible Cobwebs 14:55 - 16:35
@@ -192,7 +192,6 @@ execute_on_date "2017-10-17 15:55" "^CS3^^CtC^"
 #Paper session II: Paper session III: Invisible Cobwebs 14:55 - 16:35
 #+talk 13
 execute_on_date "2017-10-17 16:15" "^CS3^^CtD^"
-
 
 #AppContest in 5min
 execute_on_date "2017-10-17 16:30" "^CS3^^CtD^^C[A^"
@@ -350,47 +349,64 @@ execute_on_date "2017-10-18 14:54" "^CS5^^CtK^^C}C^"
 #Break4 14:55 - 15:15
 execute_on_date "2017-10-18 14:55" "^CC4^"
 
+
+#Test of Time Award in 5min
+execute_on_date "2017-10-18 15:10" "^CC4^^C[t^"
+
+#Test of Time Award in  in 3min
+execute_on_date "2017-10-18 15:12" "^CC4^^C]t^"
+
+#Test of Time Award in  in 1min
+execute_on_date "2017-10-18 15:14" "^CC4^^C}t^"
+
+#Test of Time Award 15:15 - 15:30
+execute_on_date "2017-10-18 15:15" "^CXT^"
+
+
+
+
+
 #Session 6 in 5min
-execute_on_date "2017-10-18 15:10" "^CC4^^C[b^"
+execute_on_date "2017-10-18 15:25" "^CXT^^C[b^"
 
 #Session 6 in 3min
-execute_on_date "2017-10-18 15:12" "^CC4^^C]b^"
+execute_on_date "2017-10-18 15:27" "^CXT^^C]b^"
 
 #Session 6 in 1min
-execute_on_date "2017-10-18 15:14" "^CC4^^C}b^"
+execute_on_date "2017-10-18 15:29" "^CXT^^C}b^"
 
-#15:15 - 16:35 	Paper session VI: Tag, You’re It!
+#15:30 - 16:50 	Paper session VI: Tag, You’re It!
 #+talk L
-execute_on_date "2017-10-18 15:15" "^CS6^^CtL^"
+execute_on_date "2017-10-18 15:30" "^CS6^^CtL^"
 
 #15:15 - 16:35 	Paper session VI: Tag, You’re It!
 #+talk M
-execute_on_date "2017-10-18 15:35" "^CS6^^CtM^"
+execute_on_date "2017-10-18 15:50" "^CS6^^CtM^"
 
 #15:15 - 16:35 	Paper session VI: Tag, You’re It!
 #+talk N
-execute_on_date "2017-10-18 15:55" "^CS6^^CtN^"
+execute_on_date "2017-10-18 16:10" "^CS6^^CtN^"
 
 #15:15 - 16:35 	Paper session VI: Tag, You’re It!
 #+talk O
-execute_on_date "2017-10-18 16:15" "^CS6^^CtO^"
+execute_on_date "2017-10-18 16:30" "^CS6^^CtO^"
 
-execute_on_date "2017-10-18 16:35" "LoWS"
+execute_on_date "2017-10-18 16:50" "LoWS"
 
 #Tram rides to Hidden Peak in 5min
-execute_on_date "2017-10-18 16:40" "^C[c^"
+execute_on_date "2017-10-18 17:10" "^C[c^"
 
 #Tram rides to Hidden Peak in 3min
-execute_on_date "2017-10-18 16:42" "^C]c^"
+execute_on_date "2017-10-18 17:12" "^C]c^"
 
 #Tram rides to Hidden Peak in 1min
-execute_on_date "2017-10-18 16:44" "^C}c^"
+execute_on_date "2017-10-18 17:14" "^C}c^"
 
-#Tram rides to Hidden Peak 16:45 - 18:00
-execute_on_date "2017-10-18 16:45" "^CX6^"
+#Tram rides to Hidden Peak 17:15 - 18:00
+execute_on_date "2017-10-18 17:15" "^CX6^"
 
 #Banquet 18-21:00
-execute_on_date "2017-10-18 16:45" "^CX7^"
+execute_on_date "2017-10-18 18:00" "^CX7^"
 
 #EOB
 execute_on_date "2017-10-18 21:00" "LoWS"
